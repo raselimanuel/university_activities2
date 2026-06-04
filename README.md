@@ -1,3 +1,10 @@
+WEBSITE INI DIBUAT UNTUK MENYELESAIKAN TUGAS PENGEMBANGAN APLIKASI WEB BERBASIS FRAMEWORK UNIVERSITAS SAM RATULANGI-TEKNIK INFORMATIKA
+KELOMPOK:
+NAMA: RUSSELL IMANUEL RURU/2202122060374 sebagai KEPALA PROJECT
+NAMA: JEREMIA DAVID PASCA/
+NAMA: LEONARDUS PAAT/
+2026
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
