@@ -1,26 +1,293 @@
-@import "tailwindcss";
+/* Custom global overrides and styling base for UNSRAT E-Organization */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --bs-body-font-family: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  --primary-gradient: linear-gradient(135deg, #E31B23 0%, #B90D23 100%);
+  --danger-gradient: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+  --success-gradient: linear-gradient(135deg, #198754 0%, #146c43 100%);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* Bootstrap Primary Color overrides (using Brand Red palette) */
+  --bs-primary: #E31B23;
+  --bs-primary-rgb: 227, 27, 35;
+  --bs-primary-bg-subtle: #fdebee;
+  --bs-primary-border-subtle: #fbcdd3;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --bs-link-color: #B90D23;
+  --bs-link-hover-color: #E31B23;
+  --bs-link-color-rgb: 185, 13, 35;
+  --bs-link-hover-color-rgb: 227, 27, 35;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--bs-body-font-family);
+  background-color: #f1f3f5; /* Updated background to match the Brand color palette (#F1F3F5) */
+  color: #111827; /* Updated text color to match the Brand dark color (#111827) */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
+
+/* Custom Scrollbar for modern feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f3f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Glassmorphism style cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+}
+
+/* Custom micro-animations */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.transition-all-200 {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Premium Icon Bounce Hover animation */
+.hover-bounce {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hover-bounce:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.hover-bounce i {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-bounce:hover i {
+  transform: scale(1.2);
+}
+
+/* Brand Red Color overrides for Bootstrap classes */
+.btn-primary {
+  background-color: #E31B23 !important;
+  border-color: #E31B23 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover, 
+.btn-primary:focus, 
+.btn-primary:active,
+.btn-primary.active {
+  background-color: #B90D23 !important;
+  border-color: #B90D23 !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-primary {
+  color: #E31B23 !important;
+  border-color: #E31B23 !important;
+}
+
+.btn-outline-primary:hover, 
+.btn-outline-primary:focus, 
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+  background-color: #E31B23 !important;
+  border-color: #E31B23 !important;
+  color: #ffffff !important;
+}
+
+.text-primary {
+  color: #E31B23 !important;
+}
+
+.bg-primary {
+  background-color: #E31B23 !important;
+}
+
+.bg-primary-subtle {
+  background-color: #fdebee !important;
+  color: #B90D23 !important;
+}
+
+.text-primary-subtle {
+  color: #FF5A5F !important;
+}
+
+.border-primary-subtle {
+  border-color: #fbcdd3 !important;
+}
+
+.link-primary {
+  color: #E31B23 !important;
+}
+
+.link-primary:hover {
+  color: #B90D23 !important;
+}
+
+/* Form inputs focus styles matching Brand Red */
+.form-control:focus, 
+.form-select:focus {
+  border-color: #fbcdd3 !important;
+  box-shadow: 0 0 0 0.25rem rgba(227, 27, 35, 0.25) !important;
+}
+
+.form-check-input:checked {
+  background-color: #E31B23 !important;
+  border-color: #E31B23 !important;
+}
+
+.form-check-input:focus {
+  border-color: #fbcdd3 !important;
+  box-shadow: 0 0 0 0.25rem rgba(227, 27, 35, 0.25) !important;
+}
+
+/* Brand Navy and Grey color overrides */
+.bg-dark {
+  background-color: #111827 !important;
+}
+
+.text-secondary {
+  color: #6B7280 !important;
+}
+
+.border-secondary {
+  border-color: #6B7280 !important;
+}
+
+.border-dark {
+  border-color: #111827 !important;
+}
+
+.text-dark {
+  color: #111827 !important;
+}
+
+.bg-light {
+  background-color: #f1f3f5 !important;
+}
+
+/* Premium Sidebar Nav Link overrides */
+.sidebar-nav-link {
+  color: #9ca3af !important;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  border-radius: 0 !important; /* Sharp alignment on side accent line */
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.sidebar-nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: #ffffff !important;
+}
+
+.sidebar-nav-link.active {
+  background-color: rgba(227, 27, 35, 0.08) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-left: 3px solid #E31B23;
+}
+
+/* Premium Tables styling overrides */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.01) !important;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th {
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.8px;
+  color: #6B7280 !important;
+  padding: 14px 16px !important;
+  border-bottom: 1.5px solid rgba(0,0,0,0.06) !important;
+}
+
+.table td {
+  padding: 16px !important;
+  color: #111827 !important;
+  border-bottom: 1px solid rgba(0,0,0,0.04) !important;
+  font-size: 0.85rem !important;
+}
+
+.table tr:last-child td {
+  border-bottom: 0 !important;
+}
+
+/* Custom Modern Tabs styling (Shadcn/Tailwind style) */
+.custom-tabs {
+  background-color: rgba(0, 0, 0, 0.035) !important;
+  padding: 5px !important;
+  border-radius: 12px !important;
+  display: inline-flex !important;
+  gap: 4px !important;
+  width: auto !important;
+  border-bottom: 0 !important;
+}
+
+.custom-tabs .nav-item {
+  margin-bottom: 0 !important;
+}
+
+.custom-tabs .nav-link {
+  border: none !important;
+  color: #6B7280 !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  background: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.custom-tabs .nav-link:hover {
+  color: #111827 !important;
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.custom-tabs .nav-link.active {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Animations for Back Navigation Arrow */
+.animate-arrow-left {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.btn-back-hover:hover .animate-arrow-left {
+  transform: translateX(-4px);
+}
+

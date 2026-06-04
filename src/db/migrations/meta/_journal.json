@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1780490199412,
+      "tag": "0000_hesitant_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780496149886,
+      "tag": "0001_lively_killraven",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1780503858120,
+      "tag": "0002_gigantic_metal_master",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1780543409091,
+      "tag": "0003_curly_namor",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1780567940653,
+      "tag": "0004_reflective_doctor_faustus",
+      "breakpoints": true
+    }
+  ]
+}
