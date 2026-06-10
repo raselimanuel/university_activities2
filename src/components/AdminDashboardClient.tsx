@@ -574,7 +574,7 @@ export default function AdminDashboardClient({
               </div>
             ) : (
               <div className="table-responsive">
-                <table className="table table-hover align-middle">
+                <table className="table table-hover align-middle no-line-table">
                   <thead>
                     <tr className="text-secondary small">
                       <th>Nama Kegiatan</th>
@@ -725,7 +725,7 @@ export default function AdminDashboardClient({
  
             <div className="card-body p-0">
               <div className="table-responsive">
-                <table className="table table-hover align-middle mb-0 border-0">
+                <table className="table table-hover align-middle mb-0 border-0 no-line-table">
                   <thead className="bg-light">
                     <tr className="text-secondary small fw-bold">
                       <th className="ps-4 py-3 border-0">LOGO & NAMA ORMAWA</th>

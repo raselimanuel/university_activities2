@@ -31,9 +31,10 @@ export default function Home() {
                 <i className="bi bi-stars me-2 fs-5"></i> 
                 <span className="small tracking-wide text-uppercase fw-bold">Platform Ormawa Terintegrasi</span>
               </div>
-              <h1 className="display-4 fw-extrabold tracking-tight mb-4 text-dark" style={{ lineHeight: 1.15 }}>
+              <h1 className="display-4 fw-extrabold tracking-tight mb-3 text-dark" style={{ lineHeight: 1.15 }}>
                 Kelola Kegiatan Organisasi Kampus <br className="d-none d-lg-block"/> Lebih <span className="text-gradient-primary">Cepat & Transparan</span>
               </h1>
+              <div className="gold-prestige-line mb-4 mx-auto mx-lg-0"></div>
               <p className="lead text-secondary mb-5 fs-5 pe-lg-4" style={{ lineHeight: 1.6 }}>
                 Sistem informasi satu pintu untuk pendaftaran, manajemen kegiatan, pengajuan proposal, dan pencapaian prestasi Ormawa di Universitas Sam Ratulangi.
               </p>

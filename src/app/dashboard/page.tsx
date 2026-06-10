@@ -125,7 +125,7 @@ async function StudentDashboard({ profile }: { profile: any }) {
                 </div>
               ) : (
                 <div className="table-responsive">
-                  <table className="table table-hover align-middle">
+                  <table className="table table-hover align-middle no-line-table">
                     <thead>
                       <tr className="text-secondary small">
                         <th>Nama Kegiatan</th>
@@ -318,7 +318,7 @@ async function LecturerDashboard({ profile }: { profile: any }) {
             </div>
           ) : (
             <div className="table-responsive">
-              <table className="table table-hover align-middle">
+              <table className="table table-hover align-middle no-line-table">
                 <thead>
                   <tr className="text-secondary small">
                     <th>Nama Kegiatan</th>

@@ -113,8 +113,7 @@ export default function RegisterPage() {
               <label className="form-label fw-semibold small text-secondary">Nama Lengkap</label>
               <input
                 type="text"
-                className={`form-control border text-dark py-2.5 ${errors.name ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-control curator-input ${errors.name ? 'is-invalid' : ''}`}
                 placeholder="Contoh: John Doe"
                 {...register("name")}
               />
@@ -126,8 +125,7 @@ export default function RegisterPage() {
               <label className="form-label fw-semibold small text-secondary">NIM / NIP</label>
               <input
                 type="text"
-                className={`form-control border text-dark py-2.5 ${errors.nim ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-control curator-input ${errors.nim ? 'is-invalid' : ''}`}
                 placeholder="Contoh: 210211060001"
                 {...register("nim")}
               />
@@ -139,8 +137,7 @@ export default function RegisterPage() {
               <label className="form-label fw-semibold small text-secondary">Email Kampus</label>
               <input
                 type="email"
-                className={`form-control border text-dark py-2.5 ${errors.email ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-control curator-input ${errors.email ? 'is-invalid' : ''}`}
                 placeholder="name@student.unsrat.ac.id"
                 {...register("email")}
               />
@@ -152,8 +149,7 @@ export default function RegisterPage() {
               <label className="form-label fw-semibold small text-secondary">Password</label>
               <input
                 type="password"
-                className={`form-control border text-dark py-2.5 ${errors.password ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-control curator-input ${errors.password ? 'is-invalid' : ''}`}
                 placeholder="Minimal 6 karakter"
                 {...register("password")}
               />
@@ -164,8 +160,7 @@ export default function RegisterPage() {
             <div className="col-md-6 mb-3">
               <label className="form-label fw-semibold small text-secondary">Fakultas</label>
               <select
-                className={`form-select border text-dark py-2.5 ${errors.faculty ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-select curator-input ${errors.faculty ? 'is-invalid' : ''}`}
                 {...register("faculty")}
               >
                 <option value="">-- Pilih Fakultas --</option>
@@ -184,8 +179,7 @@ export default function RegisterPage() {
               <label className="form-label fw-semibold small text-secondary">Program Studi / Jurusan</label>
               <input
                 type="text"
-                className={`form-control border text-dark py-2.5 ${errors.major ? 'is-invalid' : ''}`}
-                style={{ borderRadius: "10px" }}
+                className={`form-control curator-input ${errors.major ? 'is-invalid' : ''}`}
                 placeholder="Contoh: Teknik Informatika"
                 {...register("major")}
               />

@@ -548,7 +548,7 @@ export default function OrgDetailClient({
               </div>
             ) : (
               <div className="table-responsive">
-                <table className="table table-hover align-middle">
+                <table className="table table-hover align-middle no-line-table">
                   <thead>
                     <tr className="text-secondary small border-bottom">
                       <th>Nama Kegiatan</th>
@@ -701,7 +701,7 @@ export default function OrgDetailClient({
                 </div>
               ) : (
                 <div className="table-responsive">
-                  <table className="table align-middle">
+                  <table className="table align-middle no-line-table">
                     <thead>
                       <tr className="text-secondary small border-bottom">
                         <th>Mahasiswa</th>

@@ -16,6 +16,12 @@
   --bs-link-hover-color: #E31B23;
   --bs-link-color-rgb: 185, 13, 35;
   --bs-link-hover-color-rgb: 227, 27, 35;
+
+  /* Curator Academic Gold Accents */
+  --gold-accent: #D4AF37;
+  --gold-accent-light: #fdf8e7;
+  --gold-accent-border: #f9eeb9;
+  --gold-accent-text: #765A24;
 }
 
 body {
@@ -309,7 +315,7 @@ body {
 /* Enhanced Glassmorphism for Landing Page */
 .card-glass-premium {
   background: rgba(255, 255, 255, 0.94) !important;
-  border: 1px solid rgba(255, 255, 255, 1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.035) !important;
   box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.04) !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -348,8 +354,79 @@ body {
 
 .card-glass-static {
   background: rgba(255, 255, 255, 0.94) !important;
-  border: 1px solid rgba(255, 255, 255, 1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.035) !important;
   box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.025) !important;
 }
+
+/* Digital Curator: Prestige Gold Accents */
+.text-gold {
+  color: var(--gold-accent) !important;
+}
+.bg-gold {
+  background-color: var(--gold-accent) !important;
+}
+.bg-gold-subtle {
+  background-color: var(--gold-accent-light) !important;
+  color: var(--gold-accent-text) !important;
+  border: 1px solid var(--gold-accent-border) !important;
+}
+.border-gold-subtle {
+  border-color: var(--gold-accent-border) !important;
+}
+.gold-prestige-line {
+  height: 2px;
+  width: 40px;
+  background-color: var(--gold-accent);
+  display: block;
+}
+
+/* Digital Curator: No-Line Table Overrides */
+.table.no-line-table th {
+  border-bottom: 0 !important;
+  padding-bottom: 10px !important;
+}
+.table.no-line-table td {
+  border-bottom: 0 !important;
+}
+.table.no-line-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+.table.no-line-table tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+.table.no-line-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Digital Curator: Input Fields */
+.curator-input {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease-in-out !important;
+  color: #1a1c1c !important;
+}
+.curator-input:focus {
+  background-color: #ffffff !important;
+  border-color: rgba(227, 27, 35, 0.15) !important;
+  border-left: 3.5px solid #E31B23 !important;
+  box-shadow: 0 4px 12px rgba(227, 27, 35, 0.08) !important;
+}
+
+/* For dark glassmorphism screens (login/register) */
+.curator-input-dark {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease-in-out !important;
+  color: #ffffff !important;
+}
+.curator-input-dark:focus {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(227, 27, 35, 0.25) !important;
+  border-left: 3.5px solid #E31B23 !important;
+  box-shadow: 0 0 16px rgba(227, 27, 35, 0.25) !important;
+}
+
 
 

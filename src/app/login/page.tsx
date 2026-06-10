@@ -89,41 +89,29 @@ export default function LoginPage() {
           {/* Email field */}
           <div className="mb-3">
             <label className="form-label fw-semibold small text-secondary">Email Kampus</label>
-            <div className="input-group">
-              <span className="input-group-text border text-secondary bg-light" style={{ borderRight: "none", borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
-                <i className="bi bi-envelope"></i>
-              </span>
-              <input
-                type="email"
-                className={`form-control border text-dark py-2.5 ${errors.email ? 'is-invalid' : ''}`}
-                style={{ borderLeft: "none", borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
-                placeholder="nama@student.unsrat.ac.id"
-                {...register("email")}
-              />
-              {errors.email && (
-                <div className="invalid-feedback text-danger small mt-1">{errors.email.message}</div>
-              )}
-            </div>
+            <input
+              type="email"
+              className={`form-control curator-input py-2.5 ${errors.email ? 'is-invalid' : ''}`}
+              placeholder="nama@student.unsrat.ac.id"
+              {...register("email")}
+            />
+            {errors.email && (
+              <div className="invalid-feedback text-danger small mt-1">{errors.email.message}</div>
+            )}
           </div>
 
           {/* Password field */}
           <div className="mb-4">
             <label className="form-label fw-semibold small text-secondary">Password</label>
-            <div className="input-group">
-              <span className="input-group-text border text-secondary bg-light" style={{ borderRight: "none", borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
-                <i className="bi bi-lock"></i>
-              </span>
-              <input
-                type="password"
-                className={`form-control border text-dark py-2.5 ${errors.password ? 'is-invalid' : ''}`}
-                style={{ borderLeft: "none", borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
-                placeholder="••••••••"
-                {...register("password")}
-              />
-              {errors.password && (
-                <div className="invalid-feedback text-danger small mt-1">{errors.password.message}</div>
-              )}
-            </div>
+            <input
+              type="password"
+              className={`form-control curator-input py-2.5 ${errors.password ? 'is-invalid' : ''}`}
+              placeholder="••••••••"
+              {...register("password")}
+            />
+            {errors.password && (
+              <div className="invalid-feedback text-danger small mt-1">{errors.password.message}</div>
+            )}
           </div>
 
           {/* Submit Button with Brand Gradient */}

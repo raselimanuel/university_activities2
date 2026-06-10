@@ -193,7 +193,7 @@ export default function ActivitiesClient({
               <p className="text-center text-secondary py-5 small mb-0">Belum ada proposal kegiatan terdaftar.</p>
             ) : (
               <div className="table-responsive">
-                <table className="table table-hover align-middle">
+                <table className="table table-hover align-middle no-line-table">
                   <thead>
                     <tr className="text-secondary small">
                       <th>Nama Kegiatan</th>
@@ -273,14 +273,14 @@ export default function ActivitiesClient({
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Organisasi Pengaju</Form.Label>
                   {user.role === "admin" ? (
-                    <Form.Select className={`py-2 ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
+                    <Form.Select className={`py-2 curator-input ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
                       <option value="">-- Pilih Organisasi --</option>
                       {managedOrganizations.map(org => (
                         <option key={org.id} value={org.id}>{org.name}</option>
                       ))}
                     </Form.Select>
                   ) : (
-                    <Form.Select className={`py-2 ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
+                    <Form.Select className={`py-2 curator-input ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
                       <option value="">-- Pilih Organisasi --</option>
                       {managedOrganizations.map(org => (
                         <option key={org.id} value={org.id}>{org.name}</option>
@@ -298,7 +298,7 @@ export default function ActivitiesClient({
                   <Form.Control
                     type="text"
                     placeholder="Contoh: Latihan Kepemimpinan Mahasiswa Informatika"
-                    className={`py-2 ${errors.name ? 'is-invalid' : ''}`}
+                    className={`py-2 curator-input ${errors.name ? 'is-invalid' : ''}`}
                     {...register("name")}
                   />
                   {errors.name && <div className="invalid-feedback">{errors.name.message}</div>}
@@ -313,7 +313,7 @@ export default function ActivitiesClient({
                     as="textarea"
                     rows={4}
                     placeholder="Jelaskan secara mendalam tentang rincian, tujuan, dan sasaran dari kegiatan yang diajukan ini..."
-                    className={`py-2 ${errors.description ? 'is-invalid' : ''}`}
+                    className={`py-2 curator-input ${errors.description ? 'is-invalid' : ''}`}
                     {...register("description")}
                   />
                   {errors.description && <div className="invalid-feedback">{errors.description.message}</div>}
@@ -324,7 +324,7 @@ export default function ActivitiesClient({
               <div className="col-md-6">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Kategori Kegiatan</Form.Label>
-                  <Form.Select className={`py-2 ${errors.category ? 'is-invalid' : ''}`} {...register("category")}>
+                  <Form.Select className={`py-2 curator-input ${errors.category ? 'is-invalid' : ''}`} {...register("category")}>
                     <option value="Program Kerja">Program Kerja (Bisa diikuti/daftar mahasiswa)</option>
                     <option value="Delegasi/Lomba">Delegasi / Lomba Mandiri</option>
                   </Form.Select>
@@ -339,7 +339,7 @@ export default function ActivitiesClient({
                   <Form.Control
                     type="text"
                     placeholder="Contoh: Auditorium FT, Zoom, dsb."
-                    className={`py-2 ${errors.location ? 'is-invalid' : ''}`}
+                    className={`py-2 curator-input ${errors.location ? 'is-invalid' : ''}`}
                     {...register("location")}
                   />
                   {errors.location && <div className="invalid-feedback">{errors.location.message}</div>}
@@ -354,7 +354,7 @@ export default function ActivitiesClient({
                     <Form.Control
                       type="number"
                       placeholder="Contoh: 100"
-                      className={`py-2 ${errors.quota ? 'is-invalid' : ''}`}
+                      className={`py-2 curator-input ${errors.quota ? 'is-invalid' : ''}`}
                       {...register("quota")}
                     />
                     {errors.quota && <div className="invalid-feedback">{errors.quota.message}</div>}
@@ -367,7 +367,7 @@ export default function ActivitiesClient({
                     <Form.Control
                       type="text"
                       placeholder="Contoh: Pusat Prestasi Nasional Kemdikbud, Universitas Indonesia"
-                      className={`py-2 ${errors.externalOrganizer ? 'is-invalid' : ''}`}
+                      className={`py-2 curator-input ${errors.externalOrganizer ? 'is-invalid' : ''}`}
                       {...register("externalOrganizer")}
                     />
                     {errors.externalOrganizer && <div className="invalid-feedback">{errors.externalOrganizer.message}</div>}
@@ -381,7 +381,7 @@ export default function ActivitiesClient({
                   <Form.Label className="small fw-semibold text-secondary">Tanggal Mulai</Form.Label>
                   <Form.Control
                     type="date"
-                    className={`py-2 ${errors.startDate ? 'is-invalid' : ''}`}
+                    className={`py-2 curator-input ${errors.startDate ? 'is-invalid' : ''}`}
                     {...register("startDate")}
                   />
                   {errors.startDate && <div className="invalid-feedback">{errors.startDate.message}</div>}
@@ -394,7 +394,7 @@ export default function ActivitiesClient({
                   <Form.Label className="small fw-semibold text-secondary">Tanggal Selesai</Form.Label>
                   <Form.Control
                     type="date"
-                    className={`py-2 ${errors.endDate ? 'is-invalid' : ''}`}
+                    className={`py-2 curator-input ${errors.endDate ? 'is-invalid' : ''}`}
                     {...register("endDate")}
                   />
                   {errors.endDate && <div className="invalid-feedback">{errors.endDate.message}</div>}
