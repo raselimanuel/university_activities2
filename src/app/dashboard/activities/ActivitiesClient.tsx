@@ -118,15 +118,15 @@ export default function ActivitiesClient({
     <div className="container-fluid p-0">
       
       {/* Header and Quick action */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <h4 className="fw-bold text-dark mb-1">Kegiatan & Proker Kampus</h4>
-          <p className="text-secondary small mb-0">Direktori program kerja, delegasi, dan kompetisi resmi Ormawa UNSRAT</p>
+          <h4 className="fw-extrabold text-dark mb-1">Kegiatan & Proker Kampus</h4>
+          <p className="text-secondary small mb-0 fw-medium">Direktori program kerja, delegasi, dan kompetisi resmi ORMAWA UNSRAT</p>
         </div>
         {isEligibleToPropose && (
-          <button className="btn btn-primary hover-lift d-flex align-items-center gap-2 py-2" onClick={() => setShowModal(true)}>
+          <button className="btn btn-primary hover-lift d-flex align-items-center gap-2 py-2.5 px-4 rounded-pill shadow-sm" onClick={() => setShowModal(true)}>
             <i className="bi bi-plus-circle-fill"></i>
-            <span>Ajukan Proposal Event</span>
+            <span className="fw-bold">Ajukan Proposal Event</span>
           </button>
         )}
       </div>
@@ -145,21 +145,21 @@ export default function ActivitiesClient({
               const orgStyle = getFacultyStyle(organizer);
               return (
                 <div key={event.id} className="col-md-6 col-lg-4">
-                  <div className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden hover-lift bg-white d-flex flex-column justify-content-between border-top border-4" style={{ borderTopColor: orgStyle.primary }}>
+                  <div className="card border-0 rounded-4 h-100 overflow-hidden card-glass-premium d-flex flex-column justify-content-between border-top border-4" style={{ borderTopColor: orgStyle.primary }}>
                     <div className="card-body p-4 d-flex flex-column justify-content-between">
                       <div>
                         <div className="d-flex justify-content-between align-items-start mb-3">
-                          <span className="badge border px-2.5 py-1 text-uppercase small" style={{ backgroundColor: orgStyle.lightBg, color: orgStyle.primary, borderColor: orgStyle.borderSubtle }}>
+                          <span className="badge border px-2.5 py-1 text-uppercase small fw-bold" style={{ backgroundColor: orgStyle.lightBg, color: orgStyle.primary, borderColor: orgStyle.borderSubtle }}>
                             {event.category}
                           </span>
                           {getStatusBadge(event.status)}
                         </div>
-                        <h5 className="fw-extrabold text-dark mb-1">{event.name}</h5>
+                        <h5 className="fw-extrabold text-dark mb-1" style={{ fontSize: '1.1rem' }}>{event.name}</h5>
                         <span className="text-muted small d-block mb-3">Penyelenggara: <strong style={{ color: orgStyle.primary }}>{organizer}</strong></span>
-                        <p className="text-secondary small text-truncate-3 mb-4">{event.description}</p>
+                        <p className="text-secondary small text-truncate-3 mb-4" style={{ lineHeight: 1.5 }}>{event.description}</p>
                       </div>
 
-                      <div className="border-top pt-3 mt-auto">
+                      <div className="border-top border-light pt-3 mt-auto">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                           {event.category === "Program Kerja" ? (
                             <span className="text-muted small">
@@ -187,7 +187,7 @@ export default function ActivitiesClient({
         </div>
       ) : (
         /* Lecturer / Admin Table View */
-        <div className="card border-0 shadow-sm rounded-4 bg-white">
+        <div className="card border-0 rounded-4 card-glass-static">
           <div className="card-body p-4">
             {initialActivities.length === 0 ? (
               <p className="text-center text-secondary py-5 small mb-0">Belum ada proposal kegiatan terdaftar.</p>

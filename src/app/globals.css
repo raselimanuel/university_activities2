@@ -51,9 +51,7 @@ body {
 
 /* Glassmorphism style cards */
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 12px;
 }
@@ -69,7 +67,7 @@ body {
 }
 
 .transition-all-200 {
-  transition: all 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 /* Premium Icon Bounce Hover animation */
@@ -197,7 +195,7 @@ body {
   font-weight: 500;
   border-left: 3px solid transparent;
   border-radius: 0 !important; /* Sharp alignment on side accent line */
-  transition: all 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
   text-decoration: none;
 }
 
@@ -264,7 +262,7 @@ body {
   font-size: 0.85rem !important;
   padding: 8px 16px !important;
   border-radius: 8px !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
   background: transparent !important;
   display: flex !important;
   align-items: center !important;
@@ -290,4 +288,68 @@ body {
 .btn-back-hover:hover .animate-arrow-left {
   transform: translateX(-4px);
 }
+
+/* Premium background mesh for landing page */
+.bg-mesh-light {
+  background-color: #fcfcfc;
+  background-image: 
+    radial-gradient(at 80% 0%, hsla(353,100%,75%,0.12) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(353,100%,75%,0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(353,100%,75%,0.12) 0px, transparent 50%);
+  background-attachment: scroll;
+}
+
+.text-gradient-primary {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced Glassmorphism for Landing Page */
+.card-glass-premium {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.04) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-glass-premium:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px 0 rgba(227, 27, 35, 0.07) !important;
+  border-color: rgba(227, 27, 35, 0.2) !important;
+}
+
+/* Floating animations */
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+.animate-float-delay-1 {
+  animation: floatY 6s ease-in-out 1s infinite;
+}
+.animate-float-delay-2 {
+  animation: floatY 6s ease-in-out 2s infinite;
+}
+.animate-float-delay-3 {
+  animation: floatY 6s ease-in-out 3s infinite;
+}
+
+.hero-badge {
+  background: linear-gradient(90deg, rgba(227,27,35,0.1) 0%, rgba(227,27,35,0.02) 100%);
+  border: 1px solid rgba(227,27,35,0.15);
+  color: #E31B23;
+}
+
+.card-glass-static {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 6px 18px 0 rgba(0, 0, 0, 0.025) !important;
+}
+
 

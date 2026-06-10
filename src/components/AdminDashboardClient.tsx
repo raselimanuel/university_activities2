@@ -494,49 +494,49 @@ export default function AdminDashboardClient({
     <div className="container-fluid p-0">
       
       {/* Header Admin Dashboard */}
-      <div className="mb-4 bg-white rounded-4 shadow-sm p-4 border-0 position-relative overflow-hidden hover-lift">
+      <div className="mb-4 rounded-4 shadow-sm p-4 border-0 position-relative overflow-hidden hover-lift card-glass-static">
         <div className="position-absolute end-0 top-0 w-50 h-100 opacity-10" 
           style={{
-            background: "linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%)", 
+            background: "linear-gradient(135deg, #E31B23 0%, #B90D23 100%)", 
             clipPath: "polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%)"
           }}
         ></div>
         
         <div className="position-relative z-1 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
           <div>
-            <h3 className="fw-bolder text-dark mb-1">Pusat Kendali <span className="text-danger">Super Admin</span></h3>
-            <p className="text-secondary mb-0 small">Manajemen Master Data, Otorisasi, dan Pelaporan Global Organisasi Mahasiswa.</p>
+            <h3 className="fw-bolder text-dark mb-1">Pusat Kendali <span className="text-primary">Admin Kemahasiswaan (WD III)</span></h3>
+            <p className="text-secondary mb-0 small fw-medium">Manajemen Master Data, Otorisasi, dan Pelaporan Global Organisasi Mahasiswa.</p>
           </div>
           
           {/* Navigation Tabs */}
           <div className="bg-light p-1 rounded-pill shadow-sm d-flex gap-1 border">
             <button 
               onClick={() => setActiveMenu("approval")} 
-              className={`btn btn-sm rounded-pill ${activeMenu === "approval" ? "btn-danger text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
+              className={`btn btn-sm rounded-pill ${activeMenu === "approval" ? "btn-primary text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
               style={{ transition: "all 0.2s" }}
             >
               <i className="bi bi-shield-check me-1"></i> Pusat Persetujuan
               {pendingProposals.length > 0 && (
-                <span className="badge bg-white text-danger ms-1.5 rounded-circle">{pendingProposals.length}</span>
+                <span className="badge bg-white text-primary ms-1.5 rounded-circle">{pendingProposals.length}</span>
               )}
             </button>
             <button 
               onClick={() => setActiveMenu("master")} 
-              className={`btn btn-sm rounded-pill ${activeMenu === "master" ? "btn-danger text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
+              className={`btn btn-sm rounded-pill ${activeMenu === "master" ? "btn-primary text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
               style={{ transition: "all 0.2s" }}
             >
               <i className="bi bi-grid-fill me-1"></i> Data Master
             </button>
             <button 
               onClick={() => setActiveMenu("kingmaker")} 
-              className={`btn btn-sm rounded-pill ${activeMenu === "kingmaker" ? "btn-danger text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
+              className={`btn btn-sm rounded-pill ${activeMenu === "kingmaker" ? "btn-primary text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
               style={{ transition: "all 0.2s" }}
             >
               <i className="bi bi-person-up me-1"></i> Penunjukan Ketua
             </button>
             <button 
               onClick={() => setActiveMenu("reporting")} 
-              className={`btn btn-sm rounded-pill ${activeMenu === "reporting" ? "btn-danger text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
+              className={`btn btn-sm rounded-pill ${activeMenu === "reporting" ? "btn-primary text-white fw-bold shadow-sm" : "text-secondary hover-bg-light"} px-4 py-2 border-0`}
               style={{ transition: "all 0.2s" }}
             >
               <i className="bi bi-file-earmark-excel-fill me-1"></i> Pelaporan Ekspor
@@ -544,7 +544,7 @@ export default function AdminDashboardClient({
           </div>
         </div>
       </div>
-
+ 
       {/* Global Alerts */}
       {successMsg && (
         <div className="alert alert-success d-flex align-items-center gap-2 rounded-4 shadow-sm border-0 py-3 mb-4" role="alert">
@@ -558,12 +558,12 @@ export default function AdminDashboardClient({
           <div className="small fw-semibold text-dark">{errorMsg}</div>
         </div>
       )}
-
+ 
       {/* TAB 1: PUSAT PERSETUJUAN */}
       {activeMenu === "approval" && (
-        <div className="card border-0 shadow-sm rounded-4">
-          <div className="card-header bg-white border-0 pt-4 px-4 pb-0">
-            <h5 className="fw-bold text-dark mb-0">Menunggu Persetujuan Administrator (Persetujuan Akhir)</h5>
+        <div className="card border-0 rounded-4 card-glass-static">
+          <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+            <h5 className="fw-bold text-dark mb-0">Menunggu Persetujuan Admin (Persetujuan Akhir)</h5>
           </div>
           <div className="card-body px-4 pb-4">
             {pendingProposals.length === 0 ? (
@@ -619,14 +619,14 @@ export default function AdminDashboardClient({
           </div>
         </div>
       )}
-
+ 
       {/* TAB 2: DATA MASTER ORMAWA */}
       {activeMenu === "master" && (
         <>
           {/* Stat Cards */}
           <div className="row g-4 mb-4">
             <div className="col-md-3">
-              <div className="card border-0 rounded-4 shadow-sm p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 bg-white">
+              <div className="card border-0 rounded-4 p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 card-glass-premium">
                 <div className="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center border border-primary border-opacity-25" style={{ width: "56px", height: "56px" }}>
                   <i className="bi bi-building fs-3"></i>
                 </div>
@@ -637,29 +637,29 @@ export default function AdminDashboardClient({
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card border-0 rounded-4 shadow-sm p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 bg-white">
+              <div className="card border-0 rounded-4 p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 card-glass-premium">
                 <div className="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center border border-info border-opacity-25" style={{ width: "56px", height: "56px" }}>
                   <i className="bi bi-people-fill fs-3"></i>
                 </div>
                 <div>
-                  <h6 className="text-muted fw-bold small mb-1" style={{ fontSize: "0.7rem" }}>TOTAL ANGGOTA TERDAFTAR</h6>
+                  <h6 className="text-muted fw-bold small mb-1" style={{ fontSize: "0.7rem" }}>TOTAL PENGGUNA TERDAFTAR</h6>
                   <h3 className="mb-0 fw-bold text-dark">{stats.totalUsers}</h3>
                 </div>
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card border-0 rounded-4 shadow-sm p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 bg-white">
+              <div className="card border-0 rounded-4 p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 card-glass-premium">
                 <div className="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center border border-warning border-opacity-25" style={{ width: "56px", height: "56px" }}>
-                  <i className="bi bi-door-open-fill fs-3"></i>
+                  <i className="bi bi-calendar-event fs-3"></i>
                 </div>
                 <div>
-                  <h6 className="text-muted fw-bold small mb-1" style={{ fontSize: "0.7rem" }}>PENDAFTARAN AKTIF EVENT</h6>
+                  <h6 className="text-muted fw-bold small mb-1" style={{ fontSize: "0.7rem" }}>PENDAFTARAN KEGIATAN AKTIF</h6>
                   <h3 className="mb-0 fw-bold text-dark">{stats.openRegistrations}</h3>
                 </div>
               </div>
             </div>
             <div className="col-md-3">
-              <div className="card border-0 rounded-4 shadow-sm p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 bg-white">
+              <div className="card border-0 rounded-4 p-3 hover-lift h-100 d-flex flex-row align-items-center gap-3 card-glass-premium">
                 <div className="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center border border-success border-opacity-25" style={{ width: "56px", height: "56px" }}>
                   <i className="bi bi-fire fs-3"></i>
                 </div>
@@ -672,10 +672,10 @@ export default function AdminDashboardClient({
               </div>
             </div>
           </div>
-
+ 
           {/* Master Table */}
-          <div className="card border-0 rounded-4 shadow-sm bg-white overflow-hidden mb-4">
-            <div className="card-header bg-white border-bottom py-4 px-4 d-flex justify-content-between align-items-center flex-column flex-md-row gap-3">
+          <div className="card border-0 rounded-4 card-glass-static overflow-hidden mb-4">
+            <div className="card-header bg-transparent border-bottom py-4 px-4 d-flex justify-content-between align-items-center flex-column flex-md-row gap-3">
               <div className="d-flex align-items-center gap-3 w-100 w-md-auto">
                 <div className="bg-dark rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: "45px", height: "45px" }}>
                   <i className="bi bi-database fs-5"></i>
@@ -685,7 +685,7 @@ export default function AdminDashboardClient({
                   <p className="mb-0 text-secondary small">Kelola basis data seluruh Organisasi Mahasiswa</p>
                 </div>
               </div>
-
+ 
               <div className="d-flex flex-column flex-lg-row gap-2 w-100 w-md-auto flex-wrap justify-content-md-end">
                 <select 
                   value={filterJenis} 
@@ -711,9 +711,9 @@ export default function AdminDashboardClient({
                     placeholder="Cari ORMAWA..."
                   />
                 </div>
-
+ 
                 <Button 
-                  variant="danger"
+                  variant="primary"
                   onClick={handleCreate}
                   className="text-white rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center px-4"
                   style={{ whiteSpace: "nowrap" }}
@@ -722,7 +722,7 @@ export default function AdminDashboardClient({
                 </Button>
               </div>
             </div>
-
+ 
             <div className="card-body p-0">
               <div className="table-responsive">
                 <table className="table table-hover align-middle mb-0 border-0">

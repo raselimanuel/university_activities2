@@ -1,0 +1,2 @@
+ALTER TABLE "activity_user" ADD CONSTRAINT "activity_user_user_activity_unique" UNIQUE("user_id","activity_id");--> statement-breakpoint
+ALTER TABLE "event_user" ADD CONSTRAINT "event_user_user_event_unique" UNIQUE("user_id","event_id");

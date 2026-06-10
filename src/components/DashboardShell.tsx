@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logoutAction } from "@/app/actions/auth";
@@ -19,8 +19,16 @@ interface DashboardShellProps {
 
 export default function DashboardShell({ user, children }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isLoggingOut, startLogoutTransition] = useTransition();
   const pathname = usePathname();
 
+  const handleLogout = () => {
+    if (!window.confirm("Apakah Anda yakin ingin keluar?")) return;
+
+    startLogoutTransition(() => {
+      void logoutAction();
+    });
+  };
 
   const navLinks = [
     { href: "/dashboard", label: "Dashboard", icon: "bi-grid-1x2-fill", roles: ["student", "lecturer", "admin"] },
@@ -32,10 +40,10 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
 
   const getRoleBadge = (role: string, memberships?: { role: string; orgName: string }[]) => {
     if (role === "admin") {
-      return <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2.5 py-1">Administrator</span>;
+      return <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2.5 py-1">Admin</span>;
     }
     if (role === "lecturer") {
-      return <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2.5 py-1">Dosen Pembina</span>;
+      return <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2.5 py-1">Admin</span>;
     }
     
     const leaderOrManager = memberships?.find(m => m.role === "leader" || m.role === "manager");
@@ -92,20 +100,16 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </nav>
 
         {/* Footer actions */}
-        <div className="p-3 border-top border-secondary border-opacity-25">
-          <form 
-            action={logoutAction}
-            onSubmit={(e) => {
-              if (!confirm("Apakah Anda yakin ingin keluar?")) {
-                e.preventDefault();
-              }
-            }}
+        <div className="p-3 border-top border-secondary border-opacity-25" style={process.env.NODE_ENV === "development" ? { paddingBottom: "4.25rem" } : undefined}>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2"
           >
-            <button type="submit" className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2">
-              <i className="bi bi-box-arrow-left"></i>
-              <span>Keluar</span>
-            </button>
-          </form>
+            <i className="bi bi-box-arrow-left"></i>
+            <span>{isLoggingOut ? "Keluar..." : "Keluar"}</span>
+          </button>
         </div>
 
       </aside>
@@ -159,28 +163,24 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
             })}
         </nav>
 
-        <div className="p-3 border-top border-secondary border-opacity-25">
-          <form 
-            action={logoutAction}
-            onSubmit={(e) => {
-              if (!confirm("Apakah Anda yakin ingin keluar?")) {
-                e.preventDefault();
-              }
-            }}
+        <div className="p-3 border-top border-secondary border-opacity-25" style={process.env.NODE_ENV === "development" ? { paddingBottom: "4.25rem" } : undefined}>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2"
           >
-            <button type="submit" className="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2 py-2">
-              <i className="bi bi-box-arrow-left"></i>
-              <span>Keluar</span>
-            </button>
-          </form>
+            <i className="bi bi-box-arrow-left"></i>
+            <span>{isLoggingOut ? "Keluar..." : "Keluar"}</span>
+          </button>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <div className="d-flex flex-column flex-grow-1 min-vh-100 overflow-hidden">
+      <div className="d-flex flex-column flex-grow-1 min-vh-100 overflow-hidden bg-mesh-light">
         
         {/* Top Navbar */}
-        <header className="navbar navbar-expand navbar-light bg-white border-bottom shadow-sm px-4 py-3">
+        <header className="navbar navbar-expand navbar-light border-bottom px-4 py-3" style={{ background: 'rgba(255, 255, 255, 0.94)', position: 'sticky', top: 0, zIndex: 100 }}>
           <div className="container-fluid p-0">
             
             {/* Sidebar toggle button for mobile */}
@@ -205,9 +205,9 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
                 Halo, <strong className="text-dark">{user.name.split(" ")[0]}</strong>
                 <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-0.5 ms-2 small">
                   {user.role === "admin" 
-                    ? "Administrator" 
+                    ? "Admin" 
                     : user.role === "lecturer" 
-                      ? "Dosen Pembina" 
+                      ? "Admin" 
                       : (() => {
                           const leaderOrManager = user.memberships?.find(m => m.role === "leader" || m.role === "manager");
                           if (leaderOrManager) {
@@ -221,20 +221,16 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
               <div className="avatar-placeholder rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style={{ width: "38px", height: "38px" }}>
                 <span className="fw-bold small">{user.name.charAt(0).toUpperCase()}</span>
               </div>
-              <form 
-                action={logoutAction}
-                onSubmit={(e) => {
-                  if (!confirm("Apakah Anda yakin ingin keluar?")) {
-                    e.preventDefault();
-                  }
-                }}
-                className="d-flex align-items-center"
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                className="btn btn-sm btn-outline-danger d-flex align-items-center gap-2 px-3 py-1.5 rounded-2"
+                title="Keluar"
               >
-                <button type="submit" className="btn btn-sm btn-outline-danger d-flex align-items-center gap-2 px-3 py-1.5 rounded-2" title="Keluar">
-                  <i className="bi bi-box-arrow-left"></i>
-                  <span className="d-none d-sm-inline fw-semibold small">Keluar</span>
-                </button>
-              </form>
+                <i className="bi bi-box-arrow-left"></i>
+                <span className="d-none d-sm-inline fw-semibold small">{isLoggingOut ? "Keluar..." : "Keluar"}</span>
+              </button>
             </div>
 
           </div>

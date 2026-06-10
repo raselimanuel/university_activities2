@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, boolean, timestamp, uuid, index } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, boolean, timestamp, uuid, index, unique } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 // 1. Users Profile Table (links to Supabase auth.users)
@@ -63,6 +63,7 @@ export const activityUser = pgTable("activity_user", {
   index("idx_activity_user_activity").on(table.activityId),
   index("idx_activity_user_status").on(table.status),
   index("idx_activity_user_composite").on(table.userId, table.activityId),
+  unique("activity_user_user_activity_unique").on(table.userId, table.activityId),
 ]);
 
 // 4. Events (Kegiatan / Program Kerja / Delegasi Lomba)
@@ -113,6 +114,7 @@ export const eventUser = pgTable("event_user", {
   index("idx_event_user_event").on(table.eventId),
   index("idx_event_user_status").on(table.status),
   index("idx_event_user_composite").on(table.userId, table.eventId),
+  unique("event_user_user_event_unique").on(table.userId, table.eventId),
 ]);
 
 // 6. Announcements

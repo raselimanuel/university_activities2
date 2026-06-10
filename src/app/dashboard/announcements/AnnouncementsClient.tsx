@@ -86,7 +86,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
           <p className="text-secondary small mb-0">Informasi terbaru seputar kegiatan organisasi kemahasiswaan UNSRAT</p>
         </div>
         {userRole === "admin" && (
-          <button className="btn btn-primary hover-lift d-flex align-items-center gap-2 py-2" onClick={() => setShowModal(true)}>
+          <button className="btn btn-primary rounded-pill hover-lift d-flex align-items-center gap-2 px-4 py-2.5 shadow-sm fw-bold border-0" onClick={() => setShowModal(true)}>
             <i className="bi bi-megaphone-fill"></i>
             <span>Buat Pengumuman</span>
           </button>
@@ -96,9 +96,9 @@ export default function AnnouncementsClient({ announcements: list, activities, u
       <div className="row g-4">
         <div className="col-12">
           {list.length === 0 ? (
-            <div className="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+            <div className="card-glass-static border-0 shadow-sm rounded-4 p-5 text-center text-dark">
               <i className="bi bi-megaphone display-4 text-secondary opacity-50 mb-3"></i>
-              <h5>Belum Ada Pengumuman</h5>
+              <h5 className="fw-bold">Belum Ada Pengumuman</h5>
               <p className="text-secondary small mb-0">Halaman mading pengumuman saat ini masih kosong.</p>
             </div>
           ) : (
@@ -106,39 +106,37 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               {list.map((ann) => {
                 const orgStyle = getFacultyStyle(ann.activityName);
                 return (
-                  <div key={ann.id} className="card border-0 shadow-sm rounded-4 overflow-hidden bg-white hover-lift border-start border-4" style={{ borderLeftColor: orgStyle.primary }}>
-                    <div className="card-body p-4 d-flex align-items-start gap-3">
-                      
-                      <PremiumIcon 
-                        icon={ann.isUrgent ? 'bi-exclamation-triangle-fill' : orgStyle.icon}
-                        primaryColor={ann.isUrgent ? '#dc3545' : orgStyle.primary}
-                        lightBgColor={ann.isUrgent ? 'rgba(220, 53, 69, 0.1)' : orgStyle.lightBg}
-                        size={50}
-                      />
+                  <div key={ann.id} className="card-glass-static border-0 p-4 rounded-4 shadow-sm hover-lift text-dark d-flex align-items-start gap-3" style={{ borderLeft: `4px solid ${ann.isUrgent ? '#dc3545' : orgStyle.primary}` }}>
+                    
+                    <PremiumIcon 
+                      icon={ann.isUrgent ? 'bi-exclamation-triangle-fill' : orgStyle.icon}
+                      primaryColor={ann.isUrgent ? '#dc3545' : orgStyle.primary}
+                      lightBgColor={ann.isUrgent ? 'rgba(220, 53, 69, 0.1)' : orgStyle.lightBg}
+                      size={50}
+                    />
 
-                      <div className="flex-grow-1">
-                        <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                          <h5 className="fw-bold text-dark mb-0">{ann.title}</h5>
-                          <div className="d-flex gap-2 align-items-center">
-                            {ann.isUrgent && <span className="badge bg-danger">Penting</span>}
-                            {ann.isPublic ? (
-                              <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-0.5">Publik</span>
-                            ) : (
-                              <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-0.5">Internal Anggota</span>
-                            )}
-                            <span className="text-muted small">{new Date(ann.createdAt).toLocaleDateString("id-ID")}</span>
-                          </div>
-                        </div>
-                        
-                        <p className="text-secondary small mb-3">{ann.content}</p>
-                        
-                        <div className="d-flex align-items-center gap-2">
-                          <i className="bi bi-tag text-muted small"></i>
-                          <span className="text-muted small">Terkait: <strong style={{ color: orgStyle.primary }}>{ann.activityName}</strong></span>
+                    <div className="flex-grow-1">
+                      <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                        <h5 className="fw-bold text-dark mb-0">{ann.title}</h5>
+                        <div className="d-flex gap-2 align-items-center">
+                          {ann.isUrgent && <span className="badge bg-danger">Penting</span>}
+                          {ann.isPublic ? (
+                            <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-0.5" style={{ fontSize: '0.72rem' }}>Publik</span>
+                          ) : (
+                            <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-0.5" style={{ fontSize: '0.72rem' }}>Internal Anggota</span>
+                          )}
+                          <span className="text-muted small">{new Date(ann.createdAt).toLocaleDateString("id-ID")}</span>
                         </div>
                       </div>
-
+                      
+                      <p className="text-secondary small mb-3 leading-relaxed" style={{ whiteSpace: "pre-line" }}>{ann.content}</p>
+                      
+                      <div className="d-flex align-items-center gap-2 border-top pt-2">
+                        <i className="bi bi-tag text-muted small"></i>
+                        <span className="text-muted small">Terkait: <strong style={{ color: orgStyle.primary }}>{ann.activityName}</strong></span>
+                      </div>
                     </div>
+
                   </div>
                 );
               })}
@@ -163,13 +161,19 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               <div className="col-12">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Judul Pengumuman</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Contoh: Pengunduran Jadwal Sidang LDKM Informatika"
-                    className={`py-2 ${errors.title ? 'is-invalid' : ''}`}
-                    {...register("title")}
-                  />
-                  {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-chat-left-text"></i>
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Contoh: Pengunduran Jadwal Sidang LDKM Informatika"
+                      className={`border-start-0 ${errors.title ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("title")}
+                    />
+                    {errors.title && <div className="invalid-feedback text-danger small mt-1">{errors.title.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -181,7 +185,8 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                     as="textarea"
                     rows={4}
                     placeholder="Tulis detail pengumuman yang ingin disampaikan..."
-                    className={`py-2 ${errors.content ? 'is-invalid' : ''}`}
+                    className={errors.content ? 'is-invalid' : ''}
+                    style={{ borderRadius: "10px", padding: "12px" }}
                     {...register("content")}
                   />
                   {errors.content && <div className="invalid-feedback">{errors.content.message}</div>}
@@ -192,13 +197,22 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               <div className="col-md-6">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Hubungkan dengan Kegiatan</Form.Label>
-                  <Form.Select className={`py-2 ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
-                    <option value="">-- Pilih Kegiatan Terkait --</option>
-                    {activities.map((act) => (
-                      <option key={act.id} value={act.id}>{act.name}</option>
-                    ))}
-                  </Form.Select>
-                  {errors.activityId && <div className="invalid-feedback">{errors.activityId.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-grid"></i>
+                    </span>
+                    <Form.Select 
+                      className={`border-start-0 ${errors.activityId ? 'is-invalid' : ''}`} 
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("activityId")}
+                    >
+                      <option value="">-- Pilih Kegiatan Terkait --</option>
+                      {activities.map((act) => (
+                        <option key={act.id} value={act.id}>{act.name}</option>
+                      ))}
+                    </Form.Select>
+                    {errors.activityId && <div className="invalid-feedback text-danger small mt-1">{errors.activityId.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -209,7 +223,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                     type="checkbox"
                     id="isUrgent"
                     label="Tandai sebagai pengumuman Penting"
-                    className="fw-medium text-dark"
+                    className="fw-semibold text-danger small"
                     {...register("isUrgent")}
                   />
                 </Form.Group>
@@ -222,7 +236,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                     type="switch"
                     id="isPublic"
                     label="Tersedia untuk Umum (Publik)"
-                    className="fw-medium text-secondary"
+                    className="fw-semibold text-secondary small"
                     {...register("isPublic")}
                   />
                 </Form.Group>
@@ -231,10 +245,10 @@ export default function AnnouncementsClient({ announcements: list, activities, u
             </div>
 
             <div className="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-              <Button variant="outline-secondary" className="px-4" onClick={() => setShowModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" className="px-4" disabled={loading}>
+              <Button variant="primary" type="submit" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white border-0" disabled={loading} style={{ background: "var(--primary-gradient)" }}>
                 {loading ? "Memposting..." : "Posting Pengumuman"}
               </Button>
             </div>

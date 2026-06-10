@@ -82,7 +82,7 @@ export default function AchievementsClient({ achievements: list, activities, use
           <p className="text-secondary small mb-0">Daftar pencapaian dan prestasi gemilang organisasi mahasiswa UNSRAT</p>
         </div>
         {userRole === "admin" && (
-          <button className="btn btn-primary hover-lift d-flex align-items-center gap-2 py-2" onClick={() => setShowModal(true)}>
+          <button className="btn btn-primary rounded-pill hover-lift d-flex align-items-center gap-2 px-4 py-2.5 shadow-sm fw-bold border-0" onClick={() => setShowModal(true)}>
             <i className="bi bi-trophy-fill"></i>
             <span>Tambah Prestasi</span>
           </button>
@@ -92,9 +92,9 @@ export default function AchievementsClient({ achievements: list, activities, use
       <div className="row g-4">
         {list.length === 0 ? (
           <div className="col-12">
-            <div className="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+            <div className="card-glass-static border-0 shadow-sm rounded-4 p-5 text-center text-dark">
               <i className="bi bi-trophy display-4 text-secondary opacity-50 mb-3"></i>
-              <h5>Belum Ada Catatan Prestasi</h5>
+              <h5 className="fw-bold">Belum Ada Catatan Prestasi</h5>
               <p className="text-secondary small mb-0">Saat ini belum ada prestasi ormawa yang diunggah.</p>
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function AchievementsClient({ achievements: list, activities, use
             const orgStyle = getFacultyStyle(ach.activityName);
             return (
               <div key={ach.id} className="col-12 col-md-6 col-lg-4">
-                <div className="card border-0 shadow-sm rounded-4 h-100 bg-white hover-lift position-relative overflow-hidden border-top border-4" style={{ borderTopColor: orgStyle.primary }}>
+                <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm h-100 hover-lift position-relative overflow-hidden d-flex flex-column" style={{ borderTop: `4px solid ${orgStyle.primary}` }}>
                   {/* Dynamic translucent color element */}
                   <div 
                     className="position-absolute" 
@@ -113,34 +113,33 @@ export default function AchievementsClient({ achievements: list, activities, use
                       width: "60px",
                       height: "60px",
                       background: orgStyle.lightBg,
-                      transform: "rotate(45deg)"
+                      transform: "rotate(45deg)",
+                      zIndex: 1
                     }}
                   ></div>
                   
-                  <div className="card-body p-4 d-flex flex-column h-100">
-                    <div className="d-flex align-items-center gap-3 mb-3">
-                      <PremiumIcon 
-                        icon={orgStyle.icon}
-                        primaryColor={orgStyle.primary}
-                        lightBgColor={orgStyle.lightBg}
-                        size={45}
-                      />
-                      <div>
-                        <span className="badge px-2.5 py-1 fw-bold" style={{ backgroundColor: orgStyle.lightBg, color: orgStyle.primary, borderColor: orgStyle.borderSubtle, borderWidth: '1px', borderStyle: 'solid' }}>{ach.rank}</span>
-                        <span className="text-muted small ms-2">{ach.year}</span>
-                      </div>
+                  <div className="d-flex align-items-center gap-3 mb-3 position-relative" style={{ zIndex: 2 }}>
+                    <PremiumIcon 
+                      icon={orgStyle.icon}
+                      primaryColor={orgStyle.primary}
+                      lightBgColor={orgStyle.lightBg}
+                      size={45}
+                    />
+                    <div>
+                      <span className="badge px-2.5 py-1 fw-bold" style={{ backgroundColor: orgStyle.lightBg, color: orgStyle.primary, borderColor: orgStyle.borderSubtle, borderWidth: '1px', borderStyle: 'solid' }}>{ach.rank}</span>
+                      <span className="text-muted small ms-2">{ach.year}</span>
                     </div>
+                  </div>
 
-                    <h5 className="fw-extrabold text-dark mb-2">{ach.title}</h5>
-                    
-                    {ach.description && (
-                      <p className="text-secondary small flex-grow-1 mb-3">{ach.description}</p>
-                    )}
+                  <h5 className="fw-extrabold text-dark mb-2">{ach.title}</h5>
+                  
+                  {ach.description && (
+                    <p className="text-secondary small flex-grow-1 mb-3 leading-relaxed">{ach.description}</p>
+                  )}
 
-                    <div className="mt-auto pt-3 border-top d-flex align-items-center gap-2">
-                      <i className="bi bi-bookmark-star text-muted small"></i>
-                      <span className="text-muted small text-truncate">Ormawa: <strong style={{ color: orgStyle.primary }}>{ach.activityName}</strong></span>
-                    </div>
+                  <div className="mt-auto pt-3 border-top d-flex align-items-center gap-2">
+                    <i className="bi bi-bookmark-star text-muted small"></i>
+                    <span className="text-muted small text-truncate">Ormawa: <strong style={{ color: orgStyle.primary }}>{ach.activityName}</strong></span>
                   </div>
                 </div>
               </div>
@@ -165,13 +164,19 @@ export default function AchievementsClient({ achievements: list, activities, use
               <div className="col-12">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Nama Prestasi / Perlombaan</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Contoh: Juara 1 Pagelaran Mahasiswa Nasional Bidang Teknologi Informasi (GEMASTIK) XVIII"
-                    className={`py-2 ${errors.title ? 'is-invalid' : ''}`}
-                    {...register("title")}
-                  />
-                  {errors.title && <div className="invalid-feedback">{errors.title.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-trophy"></i>
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Contoh: Juara 1 Pagelaran Mahasiswa Nasional Bidang Teknologi Informasi (GEMASTIK) XVIII"
+                      className={`border-start-0 ${errors.title ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("title")}
+                    />
+                    {errors.title && <div className="invalid-feedback text-danger small mt-1">{errors.title.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -179,13 +184,19 @@ export default function AchievementsClient({ achievements: list, activities, use
               <div className="col-md-8">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Pencapaian / Juara</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Contoh: Juara 1 (Medali Emas UX Design)"
-                    className={`py-2 ${errors.rank ? 'is-invalid' : ''}`}
-                    {...register("rank")}
-                  />
-                  {errors.rank && <div className="invalid-feedback">{errors.rank.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-award"></i>
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Contoh: Juara 1 (Medali Emas UX Design)"
+                      className={`border-start-0 ${errors.rank ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("rank")}
+                    />
+                    {errors.rank && <div className="invalid-feedback text-danger small mt-1">{errors.rank.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -193,13 +204,19 @@ export default function AchievementsClient({ achievements: list, activities, use
               <div className="col-md-4">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Tahun Prestasi</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="2026"
-                    className={`py-2 ${errors.year ? 'is-invalid' : ''}`}
-                    {...register("year")}
-                  />
-                  {errors.year && <div className="invalid-feedback">{errors.year.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-calendar-event"></i>
+                    </span>
+                    <Form.Control
+                      type="number"
+                      placeholder="2026"
+                      className={`border-start-0 ${errors.year ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("year")}
+                    />
+                    {errors.year && <div className="invalid-feedback text-danger small mt-1">{errors.year.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -212,6 +229,7 @@ export default function AchievementsClient({ achievements: list, activities, use
                     rows={3}
                     placeholder="Ceritakan detail prestasi, inovasi yang dibawakan, atau delegasi yang dikirimkan..."
                     className="py-2"
+                    style={{ borderRadius: "10px", padding: "12px" }}
                     {...register("description")}
                   />
                 </Form.Group>
@@ -221,23 +239,32 @@ export default function AchievementsClient({ achievements: list, activities, use
               <div className="col-12">
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Diperoleh Oleh Organisasi (Kegiatan)</Form.Label>
-                  <Form.Select className={`py-2 ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
-                    <option value="">-- Pilih Ormawa Terkait --</option>
-                    {activities.map((act) => (
-                      <option key={act.id} value={act.id}>{act.name}</option>
-                    ))}
-                  </Form.Select>
-                  {errors.activityId && <div className="invalid-feedback">{errors.activityId.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-grid"></i>
+                    </span>
+                    <Form.Select 
+                      className={`border-start-0 ${errors.activityId ? 'is-invalid' : ''}`} 
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...register("activityId")}
+                    >
+                      <option value="">-- Pilih Ormawa Terkait --</option>
+                      {activities.map((act) => (
+                        <option key={act.id} value={act.id}>{act.name}</option>
+                      ))}
+                    </Form.Select>
+                    {errors.activityId && <div className="invalid-feedback text-danger small mt-1">{errors.activityId.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
             </div>
 
             <div className="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
-              <Button variant="outline-secondary" className="px-4" onClick={() => setShowModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" className="px-4" disabled={loading}>
+              <Button variant="primary" type="submit" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white border-0" disabled={loading} style={{ background: "var(--primary-gradient)" }}>
                 {loading ? "Menyimpan..." : "Simpan Prestasi"}
               </Button>
             </div>

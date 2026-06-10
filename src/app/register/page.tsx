@@ -66,103 +66,55 @@ export default function RegisterPage() {
   };
 
   return (
-    <div 
-      className="container-fluid min-vh-100 d-flex align-items-center justify-content-center position-relative overflow-hidden p-0"
-      style={{
-        background: "radial-gradient(circle at 50% 50%, #151c2e 0%, #0b0f19 100%)",
-      }}
-    >
-      {/* Glowing background orbs for rich aesthetics */}
-      <div 
-        className="position-absolute rounded-circle"
-        style={{
-          width: "400px",
-          height: "400px",
-          background: "rgba(227, 27, 35, 0.1)",
-          filter: "blur(100px)",
-          top: "10%",
-          left: "5%",
-          pointerEvents: "none",
-        }}
-      />
-      <div 
-        className="position-absolute rounded-circle"
-        style={{
-          width: "400px",
-          height: "400px",
-          background: "rgba(13, 110, 253, 0.1)",
-          filter: "blur(100px)",
-          bottom: "10%",
-          right: "5%",
-          pointerEvents: "none",
-        }}
-      />
+    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-mesh-light p-3 position-relative overflow-hidden">
+      {/* Decorative floating blobs in the background */}
+      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '300px', height: '300px', filter: 'blur(30px)', top: '-50px', left: '-50px', pointerEvents: 'none' }}></div>
+      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '280px', height: '280px', filter: 'blur(30px)', bottom: '-50px', right: '-50px', pointerEvents: 'none' }}></div>
 
       {/* Main Glassmorphic Register Card */}
-      <div 
-        className="card border-0 p-4 p-md-5 shadow-lg text-white"
-        style={{
-          background: "rgba(255, 255, 255, 0.03)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          border: "1px solid rgba(255, 255, 255, 0.08)",
-          borderRadius: "20px",
-          maxWidth: "680px",
-          width: "92%",
-          zIndex: 10,
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="card-glass-premium border-0 p-4 p-md-5 shadow text-dark" style={{ maxWidth: "680px", width: "100%", zIndex: 10, marginTop: "20px", marginBottom: "20px" }}>
+        {/* Back Button */}
+        <Link href="/" className="text-decoration-none text-secondary small mb-4 d-inline-flex align-items-center gap-2 hover-lift btn-back-hover fw-medium">
+          <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Beranda
+        </Link>
+
         {/* Centered Logo */}
         <div className="d-flex flex-column align-items-center mb-4 text-center">
-          <Logo theme="dark" height={55} />
-          <p className="text-secondary small mt-2 mb-0">Sistem Manajemen Ormawa Terintegrasi</p>
+          <Logo theme="light" height={50} />
+          <p className="text-secondary small mt-2 mb-0 fw-medium">Sistem Manajemen Ormawa Terintegrasi</p>
         </div>
 
         <div className="mb-4 text-center">
-          <h3 className="fw-bold text-white mb-1">Daftar Akun Baru</h3>
-          <p className="text-white-50 small">Lengkapi data diri Anda di bawah ini untuk bergabung</p>
+          <h3 className="fw-extrabold text-dark mb-1">Daftar Akun Baru</h3>
+          <p className="text-secondary small">Lengkapi data diri Anda di bawah ini untuk bergabung</p>
         </div>
 
         {/* Error Message */}
         {generalError && (
-          <div 
-            className="alert alert-danger d-flex align-items-center gap-2 rounded-3 border-0 py-3 mb-4 text-white" 
-            role="alert"
-            style={{ background: "rgba(220, 53, 69, 0.2)" }}
-          >
-            <i className="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
-            <div className="small fw-medium">{generalError}</div>
+          <div className="alert alert-danger d-flex align-items-center gap-2 rounded-3 border-0 py-3 mb-4" role="alert" style={{ background: "rgba(220, 53, 69, 0.08)", color: "#dc3545" }}>
+            <i className="bi bi-exclamation-triangle-fill fs-5"></i>
+            <div className="small fw-semibold">{generalError}</div>
           </div>
         )}
 
         {/* Success Message */}
         {successMsg && (
-          <div 
-            className="alert alert-success d-flex align-items-center gap-2 rounded-3 border-0 py-3 mb-4 text-white" 
-            role="alert"
-            style={{ background: "rgba(25, 135, 84, 0.2)" }}
-          >
-            <i className="bi bi-check-circle-fill fs-5 text-success"></i>
-            <div className="small fw-medium">{successMsg}</div>
+          <div className="alert alert-success d-flex align-items-center gap-2 rounded-3 border-0 py-3 mb-4" role="alert" style={{ background: "rgba(25, 135, 84, 0.08)", color: "#198754" }}>
+            <i className="bi bi-check-circle-fill fs-5"></i>
+            <div className="small fw-semibold">{successMsg}</div>
           </div>
         )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="needs-validation">
           <div className="row">
-            
+
             {/* Full Name */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">Nama Lengkap</label>
+              <label className="form-label fw-semibold small text-secondary">Nama Lengkap</label>
               <input
                 type="text"
-                className={`form-control border-0 text-white py-2 ${errors.name ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px"
-                }}
+                className={`form-control border text-dark py-2.5 ${errors.name ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 placeholder="Contoh: John Doe"
                 {...register("name")}
               />
@@ -171,15 +123,11 @@ export default function RegisterPage() {
 
             {/* NIM / NIP */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">NIM / NIP</label>
+              <label className="form-label fw-semibold small text-secondary">NIM / NIP</label>
               <input
                 type="text"
-                className={`form-control border-0 text-white py-2 ${errors.nim ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px"
-                }}
+                className={`form-control border text-dark py-2.5 ${errors.nim ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 placeholder="Contoh: 210211060001"
                 {...register("nim")}
               />
@@ -188,15 +136,11 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">Email Kampus</label>
+              <label className="form-label fw-semibold small text-secondary">Email Kampus</label>
               <input
                 type="email"
-                className={`form-control border-0 text-white py-2 ${errors.email ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px"
-                }}
+                className={`form-control border text-dark py-2.5 ${errors.email ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 placeholder="name@student.unsrat.ac.id"
                 {...register("email")}
               />
@@ -205,15 +149,11 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">Password</label>
+              <label className="form-label fw-semibold small text-secondary">Password</label>
               <input
                 type="password"
-                className={`form-control border-0 text-white py-2 ${errors.password ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px"
-                }}
+                className={`form-control border text-dark py-2.5 ${errors.password ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 placeholder="Minimal 6 karakter"
                 {...register("password")}
               />
@@ -222,39 +162,30 @@ export default function RegisterPage() {
 
             {/* Faculty */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">Fakultas</label>
+              <label className="form-label fw-semibold small text-secondary">Fakultas</label>
               <select
-                className={`form-select border-0 text-white py-2 ${errors.faculty ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px",
-                  color: "#ffffff"
-                }}
+                className={`form-select border text-dark py-2.5 ${errors.faculty ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 {...register("faculty")}
               >
-                <option value="" className="text-dark">-- Pilih Fakultas --</option>
-                <option value="Teknik" className="text-dark">Fakultas Teknik</option>
-                <option value="Hukum" className="text-dark">Fakultas Hukum</option>
-                <option value="Kedokteran" className="text-dark">Fakultas Kedokteran</option>
-                <option value="Ekonomi & Bisnis" className="text-dark">Fakultas Ekonomi & Bisnis</option>
-                <option value="ISIP" className="text-dark">Fakultas Ilmu Sosial & Politik</option>
-                <option value="Pertanian" className="text-dark">Fakultas Pertanian</option>
+                <option value="">-- Pilih Fakultas --</option>
+                <option value="Teknik">Fakultas Teknik</option>
+                <option value="Hukum">Fakultas Hukum</option>
+                <option value="Kedokteran">Fakultas Kedokteran</option>
+                <option value="Ekonomi & Bisnis">Fakultas Ekonomi & Bisnis</option>
+                <option value="ISIP">Fakultas Ilmu Sosial & Politik</option>
+                <option value="Pertanian">Fakultas Pertanian</option>
               </select>
               {errors.faculty && <div className="invalid-feedback text-danger small mt-1">{errors.faculty.message}</div>}
             </div>
 
             {/* Major */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-white-50">Program Studi / Jurusan</label>
+              <label className="form-label fw-semibold small text-secondary">Program Studi / Jurusan</label>
               <input
                 type="text"
-                className={`form-control border-0 text-white py-2 ${errors.major ? 'is-invalid' : ''}`}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.04)", 
-                  border: "1px solid rgba(255, 255, 255, 0.08)",
-                  borderRadius: "10px"
-                }}
+                className={`form-control border text-dark py-2.5 ${errors.major ? 'is-invalid' : ''}`}
+                style={{ borderRadius: "10px" }}
                 placeholder="Contoh: Teknik Informatika"
                 {...register("major")}
               />
@@ -263,8 +194,8 @@ export default function RegisterPage() {
 
             {/* Role (for demo and review purpose) */}
             <div className="col-md-12 mb-4">
-              <label className="form-label fw-semibold small text-white-50">Daftar Sebagai (Peran Pengguna)</label>
-              <div className="d-flex gap-3 mt-1">
+              <label className="form-label fw-semibold small text-secondary">Daftar Sebagai (Peran Pengguna)</label>
+              <div className="d-flex flex-wrap gap-4 mt-1">
                 <div className="form-check">
                   <input
                     className="form-check-input"
@@ -273,7 +204,7 @@ export default function RegisterPage() {
                     value="student"
                     {...register("role")}
                   />
-                  <label className="form-check-label text-white-50 small" htmlFor="roleStudent">
+                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleStudent">
                     Mahasiswa
                   </label>
                 </div>
@@ -285,8 +216,8 @@ export default function RegisterPage() {
                     value="lecturer"
                     {...register("role")}
                   />
-                  <label className="form-check-label text-white-50 small" htmlFor="roleLecturer">
-                    Dosen Pembina
+                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleLecturer">
+                    Admin
                   </label>
                 </div>
                 <div className="form-check">
@@ -297,8 +228,8 @@ export default function RegisterPage() {
                     value="admin"
                     {...register("role")}
                   />
-                  <label className="form-check-label text-white-50 small" htmlFor="roleAdmin">
-                    Administrator
+                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleAdmin">
+                    Admin
                   </label>
                 </div>
               </div>
@@ -310,12 +241,8 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="btn w-100 py-2.5 fw-bold text-white border-0 hover-lift mb-3"
-            style={{
-              background: "linear-gradient(135deg, #E31B23 0%, #B90D23 100%)",
-              borderRadius: "10px",
-              boxShadow: "0 4px 15px rgba(227, 27, 35, 0.35)",
-            }}
+            className="btn btn-primary w-100 py-3 fw-bold text-white border-0 hover-lift mb-3 rounded-pill shadow-sm"
+            style={{ transition: 'all 0.3s ease' }}
           >
             {loading ? (
               <>
@@ -329,14 +256,13 @@ export default function RegisterPage() {
         </form>
 
         <div className="text-center mt-3">
-          <p className="text-white-50 small mb-0">
+          <p className="text-secondary small mb-0 fw-medium">
             Sudah memiliki akun?{" "}
-            <Link href="/login" className="text-primary fw-semibold text-decoration-none" style={{ color: "#E31B23" }}>
+            <Link href="/login" className="text-primary fw-bold text-decoration-none">
               Masuk di sini
             </Link>
           </p>
         </div>
-
       </div>
     </div>
   );

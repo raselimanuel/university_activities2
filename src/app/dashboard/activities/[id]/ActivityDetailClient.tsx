@@ -143,8 +143,8 @@ export default function ActivityDetailClient({
     switch (status) {
       case "open": return <span className="badge bg-success px-3 py-2 rounded-pill">Pendaftaran Buka / Terbit</span>;
       case "closed": return <span className="badge bg-secondary px-3 py-2 rounded-pill">Ditutup</span>;
-      case "pending_advisor": return <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">Review Dosen Pembina</span>;
-      case "pending_dean": return <span className="badge bg-info text-white px-3 py-2 rounded-pill">Review Administrator</span>;
+      case "pending_advisor": return <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">Review Admin</span>;
+      case "pending_dean": return <span className="badge bg-info text-white px-3 py-2 rounded-pill">Review Admin</span>;
       case "rejected": return <span className="badge bg-danger px-3 py-2 rounded-pill">Proposal Ditolak</span>;
       default: return <span className="badge bg-light text-dark px-3 py-2 rounded-pill">{status}</span>;
     }
@@ -164,8 +164,8 @@ export default function ActivityDetailClient({
       
       {/* Navigation link back */}
       <div className="mb-4">
-        <Link href="/dashboard/activities" className="text-secondary text-decoration-none small">
-          <i className="bi bi-arrow-left me-1"></i> Kembali ke Daftar Kegiatan
+        <Link href="/dashboard/activities" className="text-secondary text-decoration-none small fw-semibold btn-back-hover d-inline-flex align-items-center gap-1">
+          <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Daftar Kegiatan
         </Link>
       </div>
 
@@ -176,7 +176,7 @@ export default function ActivityDetailClient({
         
         {/* Left Side: Event Content details */}
         <div className="col-lg-8">
-          <div className="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+          <div className="card-glass-static border-0 p-4 p-md-5 rounded-4 shadow-sm text-dark">
             
             {/* Header metadata */}
             <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
@@ -200,7 +200,7 @@ export default function ActivityDetailClient({
               <div className="col-sm-6">
                 <span className="text-muted small d-block">Penyelenggara (Ormawa Induk)</span>
                 <strong className="text-dark">
-                  <Link href={`/dashboard/organizations/${organizer.id}`} className="text-primary text-decoration-none hover-underline">
+                  <Link href={`/dashboard/organizations/${organizer.id}`} className="text-decoration-none hover-underline" style={{ color: orgStyle.primary, fontWeight: 'bold' }}>
                     {organizer.name} <i className="bi bi-box-arrow-up-right small ms-1"></i>
                   </Link>
                 </strong>
@@ -235,7 +235,7 @@ export default function ActivityDetailClient({
           
           {/* Card stats / Kuota (Only for Program Kerja) */}
           {event.category === "Program Kerja" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4 text-center">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 text-center">
               <h6 className="text-muted small fw-semibold uppercase mb-2">Kuota Terisi</h6>
               <h1 className="display-4 fw-extrabold text-dark mb-2">{event.registered} <span className="fs-3 text-muted">/ {event.quota}</span></h1>
               <div className="progress rounded-pill mb-2" style={{ height: "10px" }}>
@@ -259,15 +259,15 @@ export default function ActivityDetailClient({
           
           {/* 1. LECTURER CONTROL AREA */}
           {user.role === "lecturer" && event.status === "pending_advisor" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4">
               <h5 className="fw-bold text-dark mb-3">Persetujuan Pembina</h5>
-              <p className="text-muted small mb-4">Sebagai Dosen Pembina, Anda dapat menyetujui pengajuan proposal kegiatan ini untuk dilanjutkan ke Administrator.</p>
+              <p className="text-muted small mb-4">Sebagai Admin, Anda dapat menyetujui pengajuan proposal kegiatan ini untuk dilanjutkan ke tahap admin berikutnya.</p>
               
               <div className="d-flex flex-column gap-2">
-                <button className="btn btn-success py-2.5 fw-bold" onClick={onApprove} disabled={loading}>
+                <button className="btn btn-success py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={onApprove} disabled={loading}>
                   <i className="bi bi-check-lg me-2"></i> Setujui Proposal
                 </button>
-                <button className="btn btn-outline-danger py-2.5 fw-bold" onClick={() => setShowRejectModal(true)} disabled={loading}>
+                <button className="btn btn-outline-danger py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={() => setShowRejectModal(true)} disabled={loading}>
                   <i className="bi bi-x-lg me-2"></i> Tolak Proposal
                 </button>
               </div>
@@ -276,15 +276,15 @@ export default function ActivityDetailClient({
 
           {/* 2. ADMIN / VICE DEAN CONTROL AREA */}
           {user.role === "admin" && event.status === "pending_dean" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
-              <h5 className="fw-bold text-dark mb-3">Persetujuan Akhir Administrator</h5>
-              <p className="text-muted small mb-4">Sebagai Administrator, menyetujui proposal ini akan otomatis membuka status pendaftaran mahasiswa secara publik.</p>
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4">
+              <h5 className="fw-bold text-dark mb-3">Persetujuan Admin</h5>
+              <p className="text-muted small mb-4">Sebagai Admin, menyetujui proposal ini akan otomatis membuka status pendaftaran mahasiswa secara publik.</p>
               
               <div className="d-flex flex-column gap-2">
-                <button className="btn btn-primary py-2.5 fw-bold" onClick={onApprove} disabled={loading}>
+                <button className="btn btn-primary py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm text-white" onClick={onApprove} disabled={loading} style={{ background: 'var(--primary-gradient)', border: 'none' }}>
                   <i className="bi bi-check-lg me-2"></i> Setujui & Buka Kegiatan
                 </button>
-                <button className="btn btn-outline-danger py-2.5 fw-bold" onClick={() => setShowRejectModal(true)} disabled={loading}>
+                <button className="btn btn-outline-danger py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={() => setShowRejectModal(true)} disabled={loading}>
                   <i className="bi bi-x-lg me-2"></i> Tolak Proposal
                 </button>
               </div>
@@ -293,7 +293,7 @@ export default function ActivityDetailClient({
 
           {/* 3. STUDENT REGISTRATION FLOW (Only for open Program Kerja events) */}
           {user.role === "student" && event.status === "open" && event.category === "Program Kerja" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4">
               <h5 className="fw-bold text-dark mb-3">Registrasi Peserta</h5>
               
               {registrationStatus === "approved" ? (
@@ -307,7 +307,7 @@ export default function ActivityDetailClient({
                       Kuota Pendaftaran Penuh
                     </div>
                   ) : (
-                    <button className="btn text-white w-100 py-2.5 fw-bold hover-lift" style={{ background: orgStyle.gradient }} onClick={onRegister} disabled={loading}>
+                    <button className="btn text-white w-100 py-2.5 rounded-pill fw-bold hover-lift shadow-sm" style={{ background: orgStyle.gradient, border: 'none' }} onClick={onRegister} disabled={loading}>
                       {loading ? "Mendaftarkan..." : "Daftar Kegiatan"}
                     </button>
                   )}
@@ -318,10 +318,10 @@ export default function ActivityDetailClient({
 
           {/* 4. LEADER/MANAGER EVENT FINISH FLOW (For open upcoming/ongoing events) */}
           {(user.role === "admin" || user.id === event.createdBy) && event.status === "open" && event.eventState !== "Selesai" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4 text-center">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 text-center">
               <h5 className="fw-bold text-dark mb-3">Manajemen Event</h5>
               <p className="text-secondary small mb-4">Tandai kegiatan ini sebagai selesai jika pelaksanaan program kerja atau kompetisi delegasi telah berakhir.</p>
-              <button className="btn btn-warning w-100 py-2.5 fw-bold hover-lift" onClick={handleMarkAsCompleted} disabled={loading}>
+              <button className="btn btn-warning w-100 py-2.5 rounded-pill fw-bold hover-lift shadow-sm text-dark" onClick={handleMarkAsCompleted} disabled={loading}>
                 Selesaikan Kegiatan & Log Prestasi
               </button>
             </div>
@@ -329,7 +329,7 @@ export default function ActivityDetailClient({
 
           {/* Locked / Closed Info Card */}
           {event.status !== "open" && user.role === "student" && (
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white text-center">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark text-center">
               <i className="bi bi-lock-fill display-5 text-secondary opacity-50 mb-2"></i>
               <h5 className="fw-bold">Pendaftaran Terkunci</h5>
               <p className="text-secondary small mb-0">Status proposal kegiatan ini adalah <strong>{event.status.replace("_", " ")}</strong>.</p>
@@ -353,16 +353,17 @@ export default function ActivityDetailClient({
                 rows={3}
                 placeholder="Tulis alasan penolakan secara mendalam untuk panduan perbaikan..."
                 className={rejectErrors.comment ? 'is-invalid' : ''}
+                style={{ borderRadius: "10px", padding: "12px" }}
                 {...rejectInputFields("comment")}
               />
               {rejectErrors.comment && <div className="invalid-feedback">{rejectErrors.comment.message}</div>}
             </Form.Group>
 
             <div className="d-flex justify-content-end gap-2 pt-2 border-top">
-              <Button variant="outline-secondary" onClick={() => setShowRejectModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowRejectModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="danger" type="submit" disabled={loading}>
+              <Button variant="danger" className="rounded-pill px-4 btn-sm fw-bold hover-lift" type="submit" disabled={loading}>
                 {loading ? "Menolak..." : "Tolak Proposal"}
               </Button>
             </div>

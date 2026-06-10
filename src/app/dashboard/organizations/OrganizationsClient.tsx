@@ -43,19 +43,20 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
       
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
-          <h4 className="fw-bold text-dark mb-1">Daftar Resmi Ormawa</h4>
-          <p className="text-secondary small mb-0">Direktori Lembaga, Himpunan, dan Unit Kegiatan Mahasiswa di lingkungan UNSRAT</p>
+          <h4 className="fw-extrabold text-dark mb-1">Direktori Resmi ORMAWA</h4>
+          <p className="text-secondary small mb-0 fw-medium">Daftar Lembaga, Himpunan, dan Unit Kegiatan Mahasiswa (UKM) aktif di lingkungan UNSRAT</p>
         </div>
         
-        {/* Filter Buttons */}
-        <div className="btn-group shadow-sm bg-white rounded-pill p-1">
+        {/* Filter Buttons - Premium Pill Navigation */}
+        <div className="bg-light p-1 rounded-pill shadow-sm d-flex gap-1 border">
           {(["All", "Lembaga", "Himpunan", "UKM"] as const).map((type) => (
             <button
               key={type}
-              className={`btn btn-sm rounded-pill px-3 py-1.5 fw-semibold border-0 ${filter === type ? 'btn-primary text-white' : 'btn-light text-secondary'}`}
+              className={`btn btn-sm rounded-pill px-4 py-2 border-0 fw-bold ${filter === type ? 'btn-primary text-white shadow-sm' : 'text-secondary hover-bg-light'}`}
               onClick={() => setFilter(type)}
+              style={{ transition: "all 0.2s" }}
             >
-              {type === "All" ? "Semua" : type}
+              {type === "All" ? "Semua ORMAWA" : type}
             </button>
           ))}
         </div>
@@ -91,12 +92,12 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
           return (
             <div key={org.id} className="col-12 col-md-6 col-lg-4">
               <Link href={`/dashboard/organizations/${org.id}`} className="text-decoration-none text-dark d-block h-100">
-                <div className="card border-0 shadow-sm rounded-4 h-100 bg-white hover-lift overflow-hidden">
+                <div className="card border-0 rounded-4 h-100 overflow-hidden card-glass-premium">
                   
                   {/* Header Gradient based on Faculty */}
                   <div className="p-3 text-white d-flex align-items-center justify-content-between" style={{ background: orgStyle.gradient }}>
-                    <span className="badge bg-white bg-opacity-25 text-white border border-white border-opacity-25 px-2.5 py-1 fw-bold text-uppercase small" style={{ fontSize: '0.7rem' }}>
-                      {org.organizationLevel}
+                    <span className="badge bg-white bg-opacity-20 text-white border border-white border-opacity-20 px-2.5 py-1 fw-bold text-uppercase small" style={{ fontSize: '0.65rem' }}>
+                      Tingkat {org.organizationLevel}
                     </span>
                     <PremiumIcon 
                       icon={icon}
@@ -107,24 +108,24 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
                   </div>
 
                   <div className="card-body p-4 d-flex flex-column h-100">
-                    <div className="mb-2 d-flex justify-content-between align-items-center">
+                    <div className="mb-3 d-flex justify-content-between align-items-center">
                       <span className="badge bg-light text-secondary border px-2 py-1 small">{org.orgType}</span>
                       {org.status === "open" ? (
-                        <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle small px-2 py-0.5">Recruitment Buka</span>
+                        <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle small px-2 py-1 fw-bold">Pendaftaran Buka</span>
                       ) : (
-                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle small px-2 py-0.5">Recruitment Tutup</span>
+                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle small px-2 py-1 fw-bold">Pendaftaran Tutup</span>
                       )}
                     </div>
                     
-                    <h5 className="fw-extrabold text-dark mb-2">{org.name}</h5>
-                    <p className="text-secondary small flex-grow-1 mb-0 text-truncate-3">
+                    <h5 className="fw-extrabold text-dark mb-2" style={{ fontSize: '1.1rem' }}>{org.name}</h5>
+                    <p className="text-secondary small flex-grow-1 mb-0 text-truncate-3" style={{ lineHeight: 1.5 }}>
                       {org.description || "Tidak ada deskripsi yang tersedia untuk organisasi kemahasiswaan ini."}
                     </p>
                     
-                    <div className="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
-                      <span className="text-muted small">{org.scopeName || "Universitas"}</span>
+                    <div className="mt-4 pt-3 border-top border-light d-flex justify-content-between align-items-center">
+                      <span className="text-muted small fw-medium">{org.scopeName || "Cakupan Universitas"}</span>
                       <span className="small fw-bold animate-arrow" style={{ color: orgStyle.primary }}>
-                        Detail Profil <i className="bi bi-arrow-right-short align-middle fs-5"></i>
+                        Lihat Profil <i className="bi bi-arrow-right-short align-middle fs-5"></i>
                       </span>
                     </div>
                   </div>

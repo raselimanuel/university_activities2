@@ -257,7 +257,7 @@ export default function OrgDetailClient({
 
       const res = await submitNewEventProposal(formData);
       if (res.success) {
-        setSuccessMsg("Proposal kegiatan berhasil diajukan! Menunggu review Dosen Pembina.");
+        setSuccessMsg("Proposal kegiatan berhasil diajukan! Menunggu review Admin.");
         setShowEventModal(false);
         resetEvent();
         setTimeout(() => window.location.reload(), 1500);
@@ -288,9 +288,14 @@ export default function OrgDetailClient({
       <div className="card border-0 text-white p-4 p-md-5 mb-4 position-relative overflow-hidden shadow-sm"
         style={{
           background: orgStyle.gradient,
+          borderRadius: "16px",
         }}
       >
-        <div className="row align-items-center">
+        {/* Decorative background blobs */}
+        <div className="position-absolute rounded-circle opacity-10" style={{ background: '#ffffff', width: '200px', height: '200px', filter: 'blur(18px)', top: '-50px', right: '-50px', pointerEvents: 'none' }}></div>
+        <div className="position-absolute rounded-circle opacity-10" style={{ background: '#ffffff', width: '170px', height: '170px', filter: 'blur(18px)', bottom: '-50px', left: '-50px', pointerEvents: 'none' }}></div>
+
+        <div className="row align-items-center position-relative" style={{ zIndex: 1 }}>
           <div className="col-md-8">
             <div className="mb-3 d-flex flex-wrap gap-2">
               <span className="badge text-white px-2.5 py-1.5 fw-semibold small text-uppercase"
@@ -321,12 +326,11 @@ export default function OrgDetailClient({
           <div className="col-md-4 text-md-end mt-4 mt-md-0 border-start-md">
             
             {/* Membership Badge/Actions */}
-            <div className="p-4 rounded-4 text-center d-flex flex-column gap-2 align-items-center justify-content-center shadow-sm"
+            <div className="p-4 rounded-4 text-center d-flex flex-column gap-2 align-items-center justify-content-center shadow-sm ms-auto"
               style={{
                 minWidth: "200px",
+                maxWidth: "280px",
                 background: "rgba(255, 255, 255, 0.12)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
                 border: "1px solid rgba(255, 255, 255, 0.2)",
                 color: "#ffffff"
               }}
@@ -390,11 +394,11 @@ export default function OrgDetailClient({
             </span>
           }
         >
-          <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 animate-fade-in">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h5 className="fw-bold text-dark mb-0">Mading Pengumuman</h5>
               {isManagerOrLeader && (
-                <button className="btn text-white btn-sm px-3 rounded-pill fw-bold" style={{ background: orgStyle.gradient }} onClick={() => setShowAnnounceModal(true)}>
+                <button className="btn text-white btn-sm px-4 rounded-pill fw-bold hover-lift shadow-sm" style={{ background: orgStyle.gradient, border: 'none' }} onClick={() => setShowAnnounceModal(true)}>
                   + Buat Pengumuman
                 </button>
               )}
@@ -420,12 +424,12 @@ export default function OrgDetailClient({
             ) : (
               <div className="d-flex flex-column gap-3">
                 {announcements.map((ann) => (
-                  <div key={ann.id} className={`p-4 rounded-4 border-start border-4 ${ann.isUrgent ? 'bg-danger bg-opacity-5 border-danger' : 'bg-light border-primary'}`}>
+                  <div key={ann.id} className="card-glass-static hover-lift border-0 p-4 rounded-4 shadow-sm" style={{ borderLeft: `4px solid ${ann.isUrgent ? '#dc3545' : orgStyle.primary}` }}>
                     <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
                       <div>
                         <h6 className="fw-extrabold text-dark mb-1 d-flex align-items-center gap-2 flex-wrap">
                           {ann.title}
-                          {ann.isUrgent && <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-0.5 animate-pulse" style={{ fontSize: '0.72rem' }}>Penting</span>}
+                          {ann.isUrgent && <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2 py-0.5" style={{ fontSize: '0.72rem' }}>Penting</span>}
                           {ann.isPublic ? (
                             <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-0.5" style={{ fontSize: '0.72rem' }}>Publik</span>
                           ) : (
@@ -454,11 +458,11 @@ export default function OrgDetailClient({
             </span>
           }
         >
-          <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 animate-fade-in">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h5 className="fw-bold text-dark mb-0">Daftar Penghargaan & Prestasi</h5>
               {isManagerOrLeader && (
-                <button className="btn text-white btn-sm px-3 rounded-pill fw-bold" style={{ background: orgStyle.gradient }} onClick={() => setShowAchieveModal(true)}>
+                <button className="btn text-white btn-sm px-4 rounded-pill fw-bold hover-lift shadow-sm" style={{ background: orgStyle.gradient, border: 'none' }} onClick={() => setShowAchieveModal(true)}>
                   + Tambah Prestasi
                 </button>
               )}
@@ -485,7 +489,7 @@ export default function OrgDetailClient({
               <div className="row g-4">
                 {achievements.map((ach) => (
                   <div key={ach.id} className="col-12 col-md-6">
-                    <div className="d-flex gap-3 align-items-center p-3 border rounded-4 bg-light">
+                    <div className="d-flex gap-3 align-items-center p-3 card-glass-static hover-lift border-0 rounded-4 shadow-sm">
                       <PremiumIcon 
                         icon="bi-trophy-fill"
                         primaryColor={orgStyle.primary}
@@ -515,11 +519,11 @@ export default function OrgDetailClient({
             </span>
           }
         >
-          <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 animate-fade-in">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h5 className="fw-bold text-dark mb-0">Kegiatan & Program Kerja Ormawa</h5>
               {isManagerOrLeader && (
-                <button className="btn text-white btn-sm px-3 rounded-pill fw-bold" style={{ background: orgStyle.gradient }} onClick={() => setShowEventModal(true)}>
+                <button className="btn text-white btn-sm px-4 rounded-pill fw-bold hover-lift shadow-sm" style={{ background: orgStyle.gradient, border: 'none' }} onClick={() => setShowEventModal(true)}>
                   + Ajukan Proposal Kegiatan
                 </button>
               )}
@@ -585,11 +589,11 @@ export default function OrgDetailClient({
                           </td>
                           <td>
                             {evt.status === "open" ? (
-                              <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle">Disetujui Admin</span>
+                              <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle">Disetujui WD III</span>
                             ) : evt.status === "pending_advisor" ? (
                               <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle">Review Pembina</span>
                             ) : evt.status === "pending_dean" ? (
-                              <span className="badge bg-info bg-opacity-10 text-info border border-info-subtle">Review Admin</span>
+                              <span className="badge bg-info bg-opacity-10 text-info border border-info-subtle">Review WD III</span>
                             ) : evt.status === "rejected" ? (
                               <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle">Ditolak</span>
                             ) : (
@@ -602,7 +606,7 @@ export default function OrgDetailClient({
                             {isCompleted && <span className="badge bg-success-subtle text-success border border-success-subtle">Selesai</span>}
                           </td>
                           <td className="text-end">
-                            <Link href={`/dashboard/activities/${evt.id}`} className="btn btn-sm btn-outline-secondary px-3">
+                            <Link href={`/dashboard/activities/${evt.id}`} className="btn btn-sm px-3 rounded-pill fw-semibold hover-lift" style={{ color: orgStyle.primary, borderColor: orgStyle.primary, borderStyle: 'solid', borderWidth: '1px', background: 'transparent' }}>
                               Detail
                             </Link>
                           </td>
@@ -626,7 +630,7 @@ export default function OrgDetailClient({
             </span>
           }
         >
-          <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
+          <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 animate-fade-in">
             <h5 className="fw-bold text-dark mb-4">Daftar Pengurus & Anggota Ormawa</h5>
             
             <div className="row g-4">
@@ -636,17 +640,17 @@ export default function OrgDetailClient({
 
                 return (
                   <div key={mbr.id} className="col-12 col-md-6 col-lg-4">
-                    <div className="d-flex align-items-center gap-3 p-3 border rounded-4 bg-light">
-                      <div className="avatar-placeholder rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style={{ width: "45px", height: "45px" }}>
-                        <span className="fw-bold fs-5">{mbr.name.charAt(0).toUpperCase()}</span>
+                    <div className="d-flex align-items-center gap-3 p-3 card-glass-static hover-lift border-0 rounded-4 shadow-sm">
+                      <div className="avatar-placeholder rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style={{ width: "45px", height: "45px", background: orgStyle.lightBg, color: orgStyle.primary }}>
+                        <span className="fw-bold fs-5" style={{ color: orgStyle.primary }}>{mbr.name.charAt(0).toUpperCase()}</span>
                       </div>
                       <div className="overflow-hidden flex-grow-1">
                         <h6 className="fw-bold text-dark mb-0 text-truncate">{mbr.name}</h6>
                         <span className="text-muted small d-block">{mbr.nim}</span>
                         {isLeaderRole ? (
-                          <span className="badge bg-danger text-white border-0 px-2 py-0.5 mt-1 small fw-bold">Ketua Umum</span>
+                          <span className="badge text-white border-0 px-2 py-0.5 mt-1 small fw-bold" style={{ backgroundColor: orgStyle.primary }}>Ketua Umum</span>
                         ) : isManagerRole ? (
-                          <span className="badge bg-warning text-dark border-0 px-2 py-0.5 mt-1 small fw-semibold">Pengurus</span>
+                          <span className="badge text-dark border-0 px-2 py-0.5 mt-1 small fw-semibold" style={{ backgroundColor: orgStyle.borderSubtle }}>Pengurus</span>
                         ) : (
                           <span className="badge bg-secondary text-white border-0 px-2 py-0.5 mt-1 small">Anggota</span>
                         )}
@@ -675,7 +679,7 @@ export default function OrgDetailClient({
               </span>
             }
           >
-            <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
+            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 animate-fade-in">
               <h5 className="fw-bold text-dark mb-4">Permintaan Bergabung Anggota Baru</h5>
 
               {pendingRequests.length === 0 ? (
@@ -720,10 +724,10 @@ export default function OrgDetailClient({
                           </td>
                           <td className="text-end">
                             <div className="d-flex justify-content-end gap-2">
-                              <button className="btn btn-sm btn-success px-3" onClick={() => handleApproveMember(req.membershipId)} disabled={loading}>
+                              <button className="btn btn-sm btn-success px-3 rounded-pill fw-bold hover-lift shadow-sm" onClick={() => handleApproveMember(req.membershipId)} disabled={loading}>
                                 Terima
                               </button>
-                              <button className="btn btn-sm btn-outline-danger px-3" onClick={() => handleRejectMember(req.membershipId)} disabled={loading}>
+                              <button className="btn btn-sm btn-outline-danger px-3 rounded-pill fw-bold hover-lift shadow-sm" onClick={() => handleRejectMember(req.membershipId)} disabled={loading}>
                                 Tolak
                               </button>
                             </div>
@@ -758,16 +762,17 @@ export default function OrgDetailClient({
                 rows={4}
                 placeholder="Tuliskan motivasi mengapa Anda ingin bergabung dengan organisasi kemahasiswaan ini..."
                 className={joinErrors.motivation ? 'is-invalid' : ''}
+                style={{ borderRadius: '12px', padding: '12px' }}
                 {...regJoin("motivation")}
               />
               {joinErrors.motivation && <div className="invalid-feedback">{joinErrors.motivation.message}</div>}
             </Form.Group>
 
             <div className="d-flex justify-content-end gap-2 border-top pt-3">
-              <Button variant="outline-secondary" onClick={() => setShowJoinModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowJoinModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" disabled={loading}>
+              <Button variant="primary" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white" type="submit" disabled={loading} style={{ background: orgStyle.gradient, border: 'none' }}>
                 {loading ? "Mengirim..." : "Kirim Lamaran"}
               </Button>
             </div>
@@ -784,13 +789,19 @@ export default function OrgDetailClient({
           <Form onSubmit={handleAnnounceSubmit(onAddAnnouncement)}>
             <Form.Group className="mb-3">
               <Form.Label className="small fw-semibold text-secondary">Judul Pengumuman</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Masukkan judul pengumuman..."
-                className={announceErrors.title ? 'is-invalid' : ''}
-                {...regAnnounce("title")}
-              />
-              {announceErrors.title && <div className="invalid-feedback">{announceErrors.title.message}</div>}
+              <div className="input-group">
+                <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                  <i className="bi bi-chat-left-text"></i>
+                </span>
+                <Form.Control
+                  type="text"
+                  placeholder="Masukkan judul pengumuman..."
+                  className={`border-start-0 ${announceErrors.title ? 'is-invalid' : ''}`}
+                  style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                  {...regAnnounce("title")}
+                />
+                {announceErrors.title && <div className="invalid-feedback text-danger small mt-1">{announceErrors.title.message}</div>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -800,6 +811,7 @@ export default function OrgDetailClient({
                 rows={4}
                 placeholder="Tuliskan detail pengumuman di sini..."
                 className={announceErrors.content ? 'is-invalid' : ''}
+                style={{ borderRadius: "10px", padding: "12px" }}
                 {...regAnnounce("content")}
               />
               {announceErrors.content && <div className="invalid-feedback">{announceErrors.content.message}</div>}
@@ -828,10 +840,10 @@ export default function OrgDetailClient({
             </Form.Group>
 
             <div className="d-flex justify-content-end gap-2 border-top pt-3">
-              <Button variant="outline-secondary" onClick={() => setShowAnnounceModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowAnnounceModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" disabled={loading}>
+              <Button variant="primary" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white" type="submit" disabled={loading} style={{ background: orgStyle.gradient, border: 'none' }}>
                 {loading ? "Menerbitkan..." : "Terbitkan Pengumuman"}
               </Button>
             </div>
@@ -848,35 +860,53 @@ export default function OrgDetailClient({
           <Form onSubmit={handleAchieveSubmit(onAddAchievement)}>
             <Form.Group className="mb-3">
               <Form.Label className="small fw-semibold text-secondary">Nama Prestasi / Kompetisi</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Juara 1 Lomba Web Design..."
-                className={achieveErrors.title ? 'is-invalid' : ''}
-                {...regAchieve("title")}
-              />
-              {achieveErrors.title && <div className="invalid-feedback">{achieveErrors.title.message}</div>}
+              <div className="input-group">
+                <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                  <i className="bi bi-award"></i>
+                </span>
+                <Form.Control
+                  type="text"
+                  placeholder="Juara 1 Lomba Web Design..."
+                  className={`border-start-0 ${achieveErrors.title ? 'is-invalid' : ''}`}
+                  style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                  {...regAchieve("title")}
+                />
+                {achieveErrors.title && <div className="invalid-feedback text-danger small mt-1">{achieveErrors.title.message}</div>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="small fw-semibold text-secondary">Peringkat / Juara</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Juara 1 Nasional / Juara Harapan 2..."
-                className={achieveErrors.rank ? 'is-invalid' : ''}
-                {...regAchieve("rank")}
-              />
-              {achieveErrors.rank && <div className="invalid-feedback">{achieveErrors.rank.message}</div>}
+              <div className="input-group">
+                <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                  <i className="bi bi-trophy"></i>
+                </span>
+                <Form.Control
+                  type="text"
+                  placeholder="Juara 1 Nasional / Juara Harapan 2..."
+                  className={`border-start-0 ${achieveErrors.rank ? 'is-invalid' : ''}`}
+                  style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                  {...regAchieve("rank")}
+                />
+                {achieveErrors.rank && <div className="invalid-feedback text-danger small mt-1">{achieveErrors.rank.message}</div>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label className="small fw-semibold text-secondary">Tahun Penghargaan</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Tahun..."
-                className={achieveErrors.year ? 'is-invalid' : ''}
-                {...regAchieve("year")}
-              />
-              {achieveErrors.year && <div className="invalid-feedback">{achieveErrors.year.message}</div>}
+              <div className="input-group">
+                <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                  <i className="bi bi-calendar-event"></i>
+                </span>
+                <Form.Control
+                  type="number"
+                  placeholder="Tahun..."
+                  className={`border-start-0 ${achieveErrors.year ? 'is-invalid' : ''}`}
+                  style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                  {...regAchieve("year")}
+                />
+                {achieveErrors.year && <div className="invalid-feedback text-danger small mt-1">{achieveErrors.year.message}</div>}
+              </div>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -886,16 +916,17 @@ export default function OrgDetailClient({
                 rows={3}
                 placeholder="Tuliskan keterangan detail prestasi..."
                 className={achieveErrors.description ? 'is-invalid' : ''}
+                style={{ borderRadius: "10px", padding: "12px" }}
                 {...regAchieve("description")}
               />
               {achieveErrors.description && <div className="invalid-feedback">{achieveErrors.description.message}</div>}
             </Form.Group>
 
             <div className="d-flex justify-content-end gap-2 border-top pt-3">
-              <Button variant="outline-secondary" onClick={() => setShowAchieveModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowAchieveModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" disabled={loading}>
+              <Button variant="primary" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white" type="submit" disabled={loading} style={{ background: orgStyle.gradient, border: 'none' }}>
                 {loading ? "Menyimpan..." : "Simpan Prestasi"}
               </Button>
             </div>
@@ -915,27 +946,39 @@ export default function OrgDetailClient({
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="small fw-semibold text-secondary">Nama Kegiatan</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Masukkan nama kegiatan..."
-                    className={eventErrors.name ? 'is-invalid' : ''}
-                    {...regEvent("name")}
-                  />
-                  {eventErrors.name && <div className="invalid-feedback">{eventErrors.name.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-tag"></i>
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Masukkan nama kegiatan..."
+                      className={`border-start-0 ${eventErrors.name ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...regEvent("name")}
+                    />
+                    {eventErrors.name && <div className="invalid-feedback text-danger small mt-1">{eventErrors.name.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="small fw-semibold text-secondary">Kategori Kegiatan</Form.Label>
-                  <Form.Select
-                    className={eventErrors.category ? 'is-invalid' : ''}
-                    {...regEvent("category")}
-                  >
-                    <option value="Program Kerja">Program Kerja (Bisa diikuti/daftar mahasiswa)</option>
-                    <option value="Delegasi/Lomba">Delegasi / Lomba Mandiri</option>
-                  </Form.Select>
-                  {eventErrors.category && <div className="invalid-feedback">{eventErrors.category.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-grid"></i>
+                    </span>
+                    <Form.Select
+                      className={`border-start-0 ${eventErrors.category ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...regEvent("category")}
+                    >
+                      <option value="Program Kerja">Program Kerja (Bisa diikuti/daftar mahasiswa)</option>
+                      <option value="Delegasi/Lomba">Delegasi / Lomba Mandiri</option>
+                    </Form.Select>
+                    {eventErrors.category && <div className="invalid-feedback text-danger small mt-1">{eventErrors.category.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
             </div>
@@ -947,6 +990,7 @@ export default function OrgDetailClient({
                 rows={4}
                 placeholder="Tuliskan latar belakang, tujuan, dan sasaran kegiatan..."
                 className={eventErrors.description ? 'is-invalid' : ''}
+                style={{ borderRadius: "10px", padding: "12px" }}
                 {...regEvent("description")}
               />
               {eventErrors.description && <div className="invalid-feedback">{eventErrors.description.message}</div>}
@@ -956,13 +1000,19 @@ export default function OrgDetailClient({
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="small fw-semibold text-secondary">Lokasi Pelaksanaan</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Auditorium, Kampus, atau Kota..."
-                    className={eventErrors.location ? 'is-invalid' : ''}
-                    {...regEvent("location")}
-                  />
-                  {eventErrors.location && <div className="invalid-feedback">{eventErrors.location.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-geo-alt"></i>
+                    </span>
+                    <Form.Control
+                      type="text"
+                      placeholder="Auditorium, Kampus, atau Kota..."
+                      className={`border-start-0 ${eventErrors.location ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...regEvent("location")}
+                    />
+                    {eventErrors.location && <div className="invalid-feedback text-danger small mt-1">{eventErrors.location.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
@@ -970,24 +1020,36 @@ export default function OrgDetailClient({
                 {watchedCategory === "Program Kerja" ? (
                   <Form.Group className="mb-3">
                     <Form.Label className="small fw-semibold text-secondary">Kuota Peserta</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Masukkan jumlah kuota..."
-                      className={eventErrors.quota ? 'is-invalid' : ''}
-                      {...regEvent("quota")}
-                    />
-                    {eventErrors.quota && <div className="invalid-feedback">{eventErrors.quota.message}</div>}
+                    <div className="input-group">
+                      <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                        <i className="bi bi-people"></i>
+                      </span>
+                      <Form.Control
+                        type="number"
+                        placeholder="Masukkan jumlah kuota..."
+                        className={`border-start-0 ${eventErrors.quota ? 'is-invalid' : ''}`}
+                        style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                        {...regEvent("quota")}
+                      />
+                      {eventErrors.quota && <div className="invalid-feedback text-danger small mt-1">{eventErrors.quota.message}</div>}
+                    </div>
                   </Form.Group>
                 ) : (
                   <Form.Group className="mb-3">
                     <Form.Label className="small fw-semibold text-secondary">Penyelenggara Eksternal</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Kemendikbud, Puspresnas, Universitas..."
-                      className={eventErrors.externalOrganizer ? 'is-invalid' : ''}
-                      {...regEvent("externalOrganizer")}
-                    />
-                    {eventErrors.externalOrganizer && <div className="invalid-feedback">{eventErrors.externalOrganizer.message}</div>}
+                    <div className="input-group">
+                      <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                        <i className="bi bi-building"></i>
+                      </span>
+                      <Form.Control
+                        type="text"
+                        placeholder="Kemendikbud, Puspresnas, Universitas..."
+                        className={`border-start-0 ${eventErrors.externalOrganizer ? 'is-invalid' : ''}`}
+                        style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                        {...regEvent("externalOrganizer")}
+                      />
+                      {eventErrors.externalOrganizer && <div className="invalid-feedback text-danger small mt-1">{eventErrors.externalOrganizer.message}</div>}
+                    </div>
                   </Form.Group>
                 )}
               </div>
@@ -997,33 +1059,45 @@ export default function OrgDetailClient({
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="small fw-semibold text-secondary">Tanggal Mulai</Form.Label>
-                  <Form.Control
-                    type="date"
-                    className={eventErrors.startDate ? 'is-invalid' : ''}
-                    {...regEvent("startDate")}
-                  />
-                  {eventErrors.startDate && <div className="invalid-feedback">{eventErrors.startDate.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-calendar"></i>
+                    </span>
+                    <Form.Control
+                      type="date"
+                      className={`border-start-0 ${eventErrors.startDate ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...regEvent("startDate")}
+                    />
+                    {eventErrors.startDate && <div className="invalid-feedback text-danger small mt-1">{eventErrors.startDate.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
 
               <div className="col-md-6">
                 <Form.Group className="mb-3">
                   <Form.Label className="small fw-semibold text-secondary">Tanggal Selesai</Form.Label>
-                  <Form.Control
-                    type="date"
-                    className={eventErrors.endDate ? 'is-invalid' : ''}
-                    {...regEvent("endDate")}
-                  />
-                  {eventErrors.endDate && <div className="invalid-feedback">{eventErrors.endDate.message}</div>}
+                  <div className="input-group">
+                    <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
+                      <i className="bi bi-calendar-check"></i>
+                    </span>
+                    <Form.Control
+                      type="date"
+                      className={`border-start-0 ${eventErrors.endDate ? 'is-invalid' : ''}`}
+                      style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
+                      {...regEvent("endDate")}
+                    />
+                    {eventErrors.endDate && <div className="invalid-feedback text-danger small mt-1">{eventErrors.endDate.message}</div>}
+                  </div>
                 </Form.Group>
               </div>
             </div>
 
             <div className="d-flex justify-content-end gap-2 border-top pt-3 mt-2">
-              <Button variant="outline-secondary" onClick={() => setShowEventModal(false)} disabled={loading}>
+              <Button variant="outline-secondary" className="rounded-pill px-4 btn-sm fw-bold hover-lift" onClick={() => setShowEventModal(false)} disabled={loading}>
                 Batal
               </Button>
-              <Button variant="primary" type="submit" disabled={loading}>
+              <Button variant="primary" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white" type="submit" disabled={loading} style={{ background: orgStyle.gradient, border: 'none' }}>
                 {loading ? "Mengirim..." : "Kirim Proposal Kegiatan"}
               </Button>
             </div>

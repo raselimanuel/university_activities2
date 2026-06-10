@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Agent and tool configurations
+.agents/
+.mcp.json
+src/proxy.ts
+Presentasi_Backend_UNSRAT_E-Organization.pdf

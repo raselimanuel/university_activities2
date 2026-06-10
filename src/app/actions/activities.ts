@@ -2,10 +2,20 @@
 
 import { db } from "@/db";
 import { activities, activityUser, events, eventUser, users, notifications, achievements } from "@/db/schema";
-import { eq, and, sql, desc } from "drizzle-orm";
+import { eq, and, sql, desc, or, isNull, lt } from "drizzle-orm";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+
+function isUniqueViolation(error: unknown) {
+  if (!error || typeof error !== "object") return false;
+
+  const candidate = error as { code?: unknown; message?: unknown };
+  return (
+    candidate.code === "23505" ||
+    (typeof candidate.message === "string" && candidate.message.toLowerCase().includes("unique"))
+  );
+}
 
 // Helper to verify if user has authorization for organization-specific actions
 async function verifyUserRoleInOrganization(activityId: number, allowedRoles: ("leader" | "manager" | "member")[] = ["leader", "manager"]) {
@@ -41,6 +51,15 @@ async function verifyUserRoleInOrganization(activityId: number, allowedRoles: ("
   }
 
   return { user: profile, membership };
+}
+
+async function canViewPendingRequests(activityId: number) {
+  try {
+    await verifyUserRoleInOrganization(activityId, ["leader", "manager"]);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 
@@ -88,27 +107,35 @@ export async function getOrganizationDetail(id: number) {
       .innerJoin(users, eq(activityUser.userId, users.id))
       .where(and(eq(activityUser.activityId, id), eq(activityUser.status, "approved")));
 
-    // Get pending joining requests (only visible to leaders/managers/admin)
-    const pendingRequestsPromise = db
-      .select({
-        id: users.id,
-        name: users.name,
-        nim: users.nim,
-        motivation: activityUser.motivation,
-        membershipId: activityUser.id,
-      })
-      .from(activityUser)
-      .innerJoin(users, eq(activityUser.userId, users.id))
-      .where(and(eq(activityUser.activityId, id), eq(activityUser.status, "pending")));
-
-    const [org, members, pendingRequests] = await Promise.all([
+    const [org, members] = await Promise.all([
       orgPromise,
       membersPromise,
-      pendingRequestsPromise,
     ]);
 
     if (org.length === 0) {
       return { success: false, error: "Organisasi tidak ditemukan" };
+    }
+
+    let pendingRequests: {
+      id: string;
+      name: string;
+      nim: string;
+      motivation: string | null;
+      membershipId: number;
+    }[] = [];
+
+    if (await canViewPendingRequests(id)) {
+      pendingRequests = await db
+        .select({
+          id: users.id,
+          name: users.name,
+          nim: users.nim,
+          motivation: activityUser.motivation,
+          membershipId: activityUser.id,
+        })
+        .from(activityUser)
+        .innerJoin(users, eq(activityUser.userId, users.id))
+        .where(and(eq(activityUser.activityId, id), eq(activityUser.status, "pending")));
     }
 
     return { 
@@ -153,13 +180,20 @@ export async function joinOrganization(activityId: number, motivation: string) {
       return { success: false, error: "Anda sudah mengirimkan permohonan gabung untuk organisasi ini." };
     }
 
-    await db.insert(activityUser).values({
-      userId: user.id,
-      activityId,
-      motivation,
-      activityRole: "member",
-      status: "pending",
-    });
+    try {
+      await db.insert(activityUser).values({
+        userId: user.id,
+        activityId,
+        motivation,
+        activityRole: "member",
+        status: "pending",
+      });
+    } catch (insertError) {
+      if (isUniqueViolation(insertError)) {
+        return { success: false, error: "Anda sudah mengirimkan permohonan gabung untuk organisasi ini." };
+      }
+      throw insertError;
+    }
 
     revalidatePath(`/dashboard/organizations/${activityId}`);
     return { success: true };
@@ -183,19 +217,28 @@ export async function approveOrganizationMember(membershipId: number) {
     if (orgResult.length === 0) return { success: false, error: "Organisasi tidak ditemukan." };
 
     const org = orgResult[0];
-    if (org.registered >= org.quota) return { success: false, error: "Kuota anggota penuh." };
 
     // Approve, increment count, and notify in a single atomic transaction
     await db.transaction(async (tx) => {
-      await tx
+      const approved = await tx
         .update(activityUser)
         .set({ status: "approved", updatedAt: new Date() })
-        .where(eq(activityUser.id, membershipId));
+        .where(and(eq(activityUser.id, membershipId), eq(activityUser.status, "pending")))
+        .returning({ id: activityUser.id });
 
-      await tx
+      if (approved.length === 0) {
+        throw new Error("Permohonan sudah diproses sebelumnya.");
+      }
+
+      const quotaUpdate = await tx
         .update(activities)
-        .set({ registered: org.registered + 1, updatedAt: new Date() })
-        .where(eq(activities.id, activityId));
+        .set({ registered: sql`${activities.registered} + 1`, updatedAt: new Date() })
+        .where(and(eq(activities.id, activityId), lt(activities.registered, activities.quota)))
+        .returning({ id: activities.id });
+
+      if (quotaUpdate.length === 0) {
+        throw new Error("Kuota anggota penuh.");
+      }
 
       await tx.insert(notifications).values({
         userId,
@@ -227,10 +270,15 @@ export async function rejectOrganizationMember(membershipId: number) {
 
     // Reject and notify in a single atomic transaction
     await db.transaction(async (tx) => {
-      await tx
+      const rejected = await tx
         .update(activityUser)
         .set({ status: "rejected", updatedAt: new Date() })
-        .where(eq(activityUser.id, membershipId));
+        .where(and(eq(activityUser.id, membershipId), eq(activityUser.status, "pending")))
+        .returning({ id: activityUser.id });
+
+      if (rejected.length === 0) {
+        throw new Error("Permohonan sudah diproses sebelumnya.");
+      }
 
       await tx.insert(notifications).values({
         userId,
@@ -290,6 +338,8 @@ export async function saveOrganizationProfile(formData: FormData) {
 // 1. Get list of events (filtered by role)
 export async function getEventsList(role: string, userId: string) {
   try {
+    void userId;
+
     let result;
     if (role === "student") {
       // Students see approved/open events
@@ -407,28 +457,45 @@ export async function approveEventProposal(id: number, currentRole: "lecturer" |
       return { success: false, error: "Akses ditolak. Peran tidak sesuai." };
     }
 
-    let nextStatus: "pending_dean" | "open" = "pending_dean";
-    let notificationTitle = "Proposal Kegiatan Disetujui Dosen Pembina";
-    let notificationMsg = `Proposal kegiatan "${event.name}" telah disetujui Dosen Pembina dan dikirim ke Administrator.`;
+    const approval =
+      profile.role === "lecturer"
+        ? {
+            expectedStatus: "pending_advisor" as const,
+            nextStatus: "pending_dean" as const,
+            notificationTitle: "Proposal Kegiatan Disetujui Admin",
+            notificationMsg: `Proposal kegiatan "${event.name}" telah disetujui Admin dan dikirim ke Administrator.`,
+          }
+        : {
+            expectedStatus: "pending_dean" as const,
+            nextStatus: "open" as const,
+            notificationTitle: "Proposal Kegiatan Disetujui Administrator",
+            notificationMsg: `Proposal kegiatan "${event.name}" telah disetujui Administrator. Pendaftaran kini dibuka!`,
+          };
 
-    if (currentRole === "admin") {
-      nextStatus = "open";
-      notificationTitle = "Proposal Kegiatan Disetujui Administrator";
-      notificationMsg = `Proposal kegiatan "${event.name}" telah disetujui Administrator. Pendaftaran kini dibuka!`;
+    if (event.status !== approval.expectedStatus) {
+      return {
+        success: false,
+        error: `Status proposal tidak valid untuk persetujuan Admin.`,
+      };
     }
 
     // Run status update and notification inside a transaction
     await db.transaction(async (tx) => {
-      await tx
+      const updated = await tx
         .update(events)
-        .set({ status: nextStatus, updatedAt: new Date() })
-        .where(eq(events.id, id));
+        .set({ status: approval.nextStatus, updatedAt: new Date() })
+        .where(and(eq(events.id, id), eq(events.status, approval.expectedStatus)))
+        .returning({ id: events.id });
+
+      if (updated.length === 0) {
+        throw new Error("Status proposal sudah berubah. Muat ulang halaman dan coba lagi.");
+      }
 
       if (event.createdBy) {
         await tx.insert(notifications).values({
           userId: event.createdBy,
-          title: notificationTitle,
-          message: notificationMsg + (comment ? ` Catatan: "${comment}"` : ""),
+          title: approval.notificationTitle,
+          message: approval.notificationMsg + (comment ? ` Catatan: "${comment}"` : ""),
         });
       }
     });
@@ -464,12 +531,25 @@ export async function rejectEventProposal(id: number, comment: string) {
       return { success: false, error: "Anda tidak memiliki akses untuk melakukan tindakan ini." };
     }
 
+    const expectedStatus = profile.role === "lecturer" ? "pending_advisor" : "pending_dean";
+    if (event.status !== expectedStatus) {
+      return {
+        success: false,
+        error: `Status proposal tidak valid untuk penolakan Admin.`,
+      };
+    }
+
     // Run rejection status update and notification in a transaction
     await db.transaction(async (tx) => {
-      await tx
+      const updated = await tx
         .update(events)
         .set({ status: "rejected", updatedAt: new Date() })
-        .where(eq(events.id, id));
+        .where(and(eq(events.id, id), eq(events.status, expectedStatus)))
+        .returning({ id: events.id });
+
+      if (updated.length === 0) {
+        throw new Error("Status proposal sudah berubah. Muat ulang halaman dan coba lagi.");
+      }
 
       if (event.createdBy) {
         await tx.insert(notifications).values({
@@ -517,19 +597,31 @@ export async function registerForEvent(eventId: number) {
       return { success: false, error: "Anda sudah mendaftar untuk kegiatan ini." };
     }
 
-    // Register and increment count in a single atomic transaction
-    await db.transaction(async (tx) => {
-      await tx.insert(eventUser).values({
-        userId: user.id,
-        eventId,
-        status: "approved", // auto-approved if there is quota
-      });
+    try {
+      // Register and increment count in a single atomic transaction
+      await db.transaction(async (tx) => {
+        await tx.insert(eventUser).values({
+          userId: user.id,
+          eventId,
+          status: "approved", // auto-approved if there is quota
+        });
 
-      await tx
-        .update(events)
-        .set({ registered: event.registered + 1, updatedAt: new Date() })
-        .where(eq(events.id, eventId));
-    });
+        const quotaUpdate = await tx
+          .update(events)
+          .set({ registered: sql`${events.registered} + 1`, updatedAt: new Date() })
+          .where(and(eq(events.id, eventId), or(isNull(events.quota), lt(events.registered, events.quota))))
+          .returning({ id: events.id });
+
+        if (quotaUpdate.length === 0) {
+          throw new Error("Kuota pendaftaran sudah penuh.");
+        }
+      });
+    } catch (registrationError) {
+      if (isUniqueViolation(registrationError)) {
+        return { success: false, error: "Anda sudah mendaftar untuk kegiatan ini." };
+      }
+      throw registrationError;
+    }
 
     revalidatePath(`/dashboard/activities/${eventId}`);
     revalidatePath("/dashboard");
@@ -546,20 +638,28 @@ export async function markEventAsAchievement(eventId: number) {
     if (eventResult.length === 0) return { success: false, error: "Kegiatan tidak ditemukan." };
 
     const event = eventResult[0];
+    if (event.isAchieved || event.eventState === "Selesai") {
+      return { success: false, error: "Kegiatan ini sudah pernah ditandai selesai." };
+    }
 
     // Server-side authorization check (only leaders/managers of that organization or admins can mark completed)
     await verifyUserRoleInOrganization(event.activityId, ["leader", "manager"]);
 
     // Complete event and record achievement in a single transaction
     await db.transaction(async (tx) => {
-      await tx
+      const completed = await tx
         .update(events)
         .set({ 
           eventState: "Selesai", 
           isAchieved: true,
           updatedAt: new Date() 
         })
-        .where(eq(events.id, eventId));
+        .where(and(eq(events.id, eventId), eq(events.isAchieved, false)))
+        .returning({ id: events.id });
+
+      if (completed.length === 0) {
+        throw new Error("Kegiatan ini sudah pernah ditandai selesai.");
+      }
 
       await tx.insert(achievements).values({
         activityId: event.activityId,
@@ -578,4 +678,3 @@ export async function markEventAsAchievement(eventId: number) {
     return { success: false, error: error.message };
   }
 }
-

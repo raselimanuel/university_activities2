@@ -73,8 +73,8 @@ async function StudentDashboard({ profile }: { profile: any }) {
 
       {/* Student Ormawa Membership quick stats */}
       {data.memberships.length > 0 && (
-        <div className="card border-0 shadow-sm rounded-4 mb-4">
-          <div className="card-header bg-white border-0 pt-4 px-4 pb-0">
+        <div className="card border-0 rounded-4 mb-4 card-glass-static">
+          <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0">
             <h6 className="fw-bold text-secondary uppercase small mb-0">Keanggotaan Ormawa Anda</h6>
           </div>
           <div className="card-body px-4 pb-4">
@@ -112,8 +112,8 @@ async function StudentDashboard({ profile }: { profile: any }) {
         <div className="col-xl-8">
           
           {/* Registered Activities */}
-          <div className="card border-0 shadow-sm rounded-4 mb-4">
-            <div className="card-header bg-white border-0 pt-4 px-4 pb-0">
+          <div className="card border-0 rounded-4 mb-4 card-glass-static">
+            <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0">
               <h5 className="fw-bold text-dark mb-0">Status Registrasi Kegiatan Anda</h5>
             </div>
             <div className="card-body px-4 pb-4">
@@ -167,8 +167,8 @@ async function StudentDashboard({ profile }: { profile: any }) {
           </div>
 
           {/* Announcements Section */}
-          <div className="card border-0 shadow-sm rounded-4">
-            <div className="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+          <div className="card border-0 rounded-4 card-glass-static">
+            <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
               <h5 className="fw-bold text-dark mb-0">Pengumuman Terbaru</h5>
               <Link href="/dashboard/announcements" className="text-primary text-decoration-none small fw-semibold">Lihat Semua</Link>
             </div>
@@ -201,8 +201,8 @@ async function StudentDashboard({ profile }: { profile: any }) {
         <div className="col-xl-4">
           
           {/* Open Activities */}
-          <div className="card border-0 shadow-sm rounded-4 mb-4">
-            <div className="card-header bg-white border-0 pt-4 px-4 pb-0">
+          <div className="card border-0 rounded-4 mb-4 card-glass-static">
+            <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0">
               <h5 className="fw-bold text-dark mb-0">Pendaftaran Kegiatan</h5>
             </div>
             <div className="card-body px-4 pb-4">
@@ -237,8 +237,8 @@ async function StudentDashboard({ profile }: { profile: any }) {
           </div>
 
           {/* Achievements */}
-          <div className="card border-0 shadow-sm rounded-4">
-            <div className="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+          <div className="card border-0 rounded-4 card-glass-static">
+            <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
               <h5 className="fw-bold text-dark mb-0">Prestasi Ormawa</h5>
               <Link href="/dashboard/achievements" className="text-primary text-decoration-none small fw-semibold">Lihat Semua</Link>
             </div>
@@ -296,7 +296,7 @@ async function LecturerDashboard({ profile }: { profile: any }) {
       >
         <div className="d-flex align-items-center gap-2 mb-2">
           <span className="badge bg-white bg-opacity-20 text-white border border-white border-opacity-30 px-3 py-1 rounded-pill small fw-semibold text-uppercase" style={{ fontSize: '0.75rem' }}>
-            Dosen Pembina
+            Admin
           </span>
         </div>
         <h1 className="fw-extrabold text-white mb-2">Selamat Datang, {profile.name}!</h1>
@@ -305,8 +305,8 @@ async function LecturerDashboard({ profile }: { profile: any }) {
         </p>
       </div>
 
-      <div className="card border-0 shadow-sm rounded-4">
-        <div className="card-header bg-white border-0 pt-4 px-4 pb-0">
+      <div className="card border-0 rounded-4 card-glass-static">
+        <div className="card-header bg-transparent border-0 pt-4 px-4 pb-0">
           <h5 className="fw-bold text-dark mb-0">Menunggu Persetujuan Anda (Persetujuan Tahap 1)</h5>
         </div>
         <div className="card-body px-4 pb-4">
