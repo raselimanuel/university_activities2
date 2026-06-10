@@ -199,22 +199,25 @@ body {
 .sidebar-nav-link {
   color: #9ca3af !important;
   font-weight: 500;
-  border-left: 3px solid transparent;
-  border-radius: 0 !important; /* Sharp alignment on side accent line */
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   text-decoration: none;
+  border-left: 3px solid transparent !important;
+  border-radius: 6px !important;
 }
 
 .sidebar-nav-link:hover {
   background-color: rgba(255, 255, 255, 0.04) !important;
   color: #ffffff !important;
+  padding-left: 1.5rem !important; /* Elegant slide effect on hover */
 }
 
 .sidebar-nav-link.active {
-  background-color: rgba(227, 27, 35, 0.08) !important;
+  background: linear-gradient(90deg, rgba(227, 27, 35, 0.12) 0%, rgba(227, 27, 35, 0.01) 100%) !important;
   color: #ffffff !important;
   font-weight: 600;
-  border-left: 3px solid #E31B23;
+  border-left: 3.5px solid #E31B23 !important;
+  padding-left: 1.5rem !important;
 }
 
 /* Premium Tables styling overrides */

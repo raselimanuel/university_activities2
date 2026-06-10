@@ -68,12 +68,12 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </div>
 
         {/* User Card inside Sidebar */}
-        <div className="p-3 mx-3 my-3 bg-secondary bg-opacity-10 rounded-3 border border-secondary border-opacity-25 text-center">
-          <div className="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style={{ width: "50px", height: "50px" }}>
+        <div className="p-3 mx-3 my-3 text-center" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)", border: "1px solid rgba(255, 255, 255, 0.05)", borderRadius: "12px" }}>
+          <div className="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style={{ width: "52px", height: "52px", border: "2px solid var(--gold-accent)", boxShadow: "0 0 10px rgba(212, 175, 55, 0.2)" }}>
             <span className="fw-bold fs-5">{user.name.charAt(0).toUpperCase()}</span>
           </div>
           <h6 className="fw-bold text-white mb-1 text-truncate">{user.name}</h6>
-          <p className="text-secondary small mb-2">{user.nim}</p>
+          <p className="text-secondary small mb-2" style={{ fontSize: "0.78rem", opacity: 0.85 }}>{user.nim}</p>
           {getRoleBadge(user.role, user.memberships)}
         </div>
 
@@ -132,12 +132,12 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
           </button>
         </div>
 
-        <div className="p-3 mx-3 my-3 bg-secondary bg-opacity-10 rounded-3 border border-secondary border-opacity-25 text-center">
-          <div className="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style={{ width: "50px", height: "50px" }}>
+        <div className="p-3 mx-3 my-3 text-center" style={{ background: "linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%)", border: "1px solid rgba(255, 255, 255, 0.05)", borderRadius: "12px" }}>
+          <div className="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style={{ width: "52px", height: "52px", border: "2px solid var(--gold-accent)", boxShadow: "0 0 10px rgba(212, 175, 55, 0.2)" }}>
             <span className="fw-bold fs-5">{user.name.charAt(0).toUpperCase()}</span>
           </div>
           <h6 className="fw-bold text-white mb-1 text-truncate">{user.name}</h6>
-          <p className="text-secondary small mb-2">{user.nim}</p>
+          <p className="text-secondary small mb-2" style={{ fontSize: "0.78rem", opacity: 0.85 }}>{user.nim}</p>
           {getRoleBadge(user.role, user.memberships)}
         </div>
 
