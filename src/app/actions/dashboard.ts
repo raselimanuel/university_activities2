@@ -127,39 +127,7 @@ export async function getStudentDashboardData(userId: string) {
   }
 }
 
-// 2. Fetch data for Lecturer Dashboard
-export async function getLecturerDashboardData() {
-  try {
-    const pendingProposals = await db
-      .select({
-        id: events.id,
-        name: events.name,
-        category: events.category,
-        orgName: activities.name,
-        scopeName: activities.scopeName,
-        createdAt: events.createdAt,
-        creatorName: users.name,
-      })
-      .from(events)
-      .innerJoin(activities, eq(events.activityId, activities.id))
-      .leftJoin(users, eq(events.createdBy, users.id))
-      .where(eq(events.status, "pending_advisor"))
-      .orderBy(desc(events.createdAt));
-
-    return {
-      success: true,
-      pendingProposals,
-    };
-  } catch (error: any) {
-    return {
-      success: false,
-      error: error.message,
-      pendingProposals: [],
-    };
-  }
-}
-
-// 3. Fetch data for Admin / Vice Dean Dashboard (Optimized with Promise.all to run parallel queries)
+// 2. Fetch data for Admin / Vice Dean Dashboard (Optimized with Promise.all to run parallel queries)
 export async function getAdminDashboardData() {
   try {
     const [

@@ -11,7 +11,7 @@ import Logo from "@/components/Logo";
 
 const loginSchema = z.object({
   email: z.string().email("Format email tidak valid"),
-  password: z.string().min(6, "Password minimal 6 karakter"),
+  password: z.string().min(6, "Kata sandi minimal 6 karakter"),
 });
 
 type LoginInput = z.infer<typeof loginSchema>;
@@ -54,13 +54,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-mesh-light p-3 position-relative overflow-hidden">
-      {/* Decorative floating blobs in the background */}
-      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '280px', height: '280px', filter: 'blur(28px)', top: '-50px', left: '-50px', pointerEvents: 'none' }}></div>
-      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '260px', height: '260px', filter: 'blur(28px)', bottom: '-50px', right: '-50px', pointerEvents: 'none' }}></div>
-
+    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center auth-shell p-3 position-relative overflow-hidden">
       {/* Main Glassmorphic Login Card */}
-      <div className="card-glass-premium border-0 p-4 p-md-5 shadow text-dark" style={{ maxWidth: "450px", width: "100%", zIndex: 10 }}>
+      <div className="card-glass-premium auth-card border-0 p-4 p-md-5 shadow text-dark" style={{ maxWidth: "450px", width: "100%", zIndex: 10 }}>
         {/* Back Button */}
         <Link href="/" className="text-decoration-none text-secondary small mb-4 d-inline-flex align-items-center gap-2 hover-lift btn-back-hover fw-medium">
           <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Beranda
@@ -69,12 +65,12 @@ export default function LoginPage() {
         {/* Centered Logo */}
         <div className="d-flex flex-column align-items-center mb-4 text-center">
           <Logo theme="light" height={50} />
-          <p className="text-secondary small mt-2 mb-0 fw-medium">Sistem Manajemen Ormawa Terintegrasi</p>
+          <p className="text-secondary small mt-2 mb-0 fw-medium">Ruang Digital ORMAWA UNSRAT</p>
         </div>
 
         <div className="mb-4 text-center">
-          <h3 className="fw-extrabold text-dark mb-1">Selamat Datang Kembali</h3>
-          <p className="text-secondary small">Silakan masuk menggunakan akun kampus Anda</p>
+          <h3 className="fw-extrabold text-dark mb-1">Masuk ke Akun Anda</h3>
+          <p className="text-secondary small">Gunakan akun kampus untuk mengakses kegiatan, organisasi, dan pengajuan ORMAWA.</p>
         </div>
 
         {/* General Alert error display */}
@@ -102,7 +98,7 @@ export default function LoginPage() {
 
           {/* Password field */}
           <div className="mb-4">
-            <label className="form-label fw-semibold small text-secondary">Password</label>
+            <label className="form-label fw-semibold small text-secondary">Kata Sandi</label>
             <input
               type="password"
               className={`form-control curator-input py-2.5 ${errors.password ? 'is-invalid' : ''}`}
@@ -128,7 +124,7 @@ export default function LoginPage() {
               </>
             ) : (
               <>
-                Masuk ke Dashboard <i className="bi bi-arrow-right-short ms-1 fs-5 align-middle"></i>
+                Masuk ke Beranda <i className="bi bi-arrow-right-short ms-1 fs-5 align-middle"></i>
               </>
             )}
           </button>
@@ -136,9 +132,9 @@ export default function LoginPage() {
 
         <div className="text-center mt-3">
           <p className="text-secondary small mb-0 fw-medium">
-            Belum memiliki akun?{" "}
+            Belum punya akun?{" "}
             <Link href="/register" className="text-primary fw-bold text-decoration-none">
-              Daftar di sini
+              Daftar sebagai mahasiswa
             </Link>
           </p>
         </div>

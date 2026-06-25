@@ -6,7 +6,7 @@ export const users = pgTable("users", {
   id: uuid("id").primaryKey().notNull(), // Linked to auth.users.id
   name: text("name").notNull(),
   nim: text("nim").unique().notNull(),
-  role: text("role", { enum: ["admin", "lecturer", "student"] }).default("student").notNull(),
+  role: text("role", { enum: ["admin", "student"] }).default("student").notNull(),
   faculty: text("faculty"),
   major: text("major"),
   createdAt: timestamp("created_at").defaultNow().notNull(),

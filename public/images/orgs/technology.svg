@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Teknologi Mahasiswa">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3c5d"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#f6f7ff"/>
+  <rect x="86" y="78" width="468" height="210" rx="28" fill="#ffffff" stroke="#d9ddff"/>
+  <rect x="158" y="120" width="324" height="130" rx="18" fill="none" stroke="url(#g)" stroke-width="14"/>
+  <path d="M210 174 H430 M260 214 H380 M250 90 V55 M320 90 V55 M390 90 V55 M250 315 V270 M320 315 V270 M390 315 V270" stroke="url(#g)" stroke-width="12" stroke-linecap="round"/>
+  <text x="128" y="274" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="800" fill="#111827">Riset dan Teknologi Mahasiswa</text>
+</svg>

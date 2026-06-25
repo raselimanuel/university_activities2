@@ -29,7 +29,7 @@ interface ActivitiesClientProps {
   user: {
     id: string;
     name: string;
-    role: "student" | "lecturer" | "admin";
+    role: "student" | "admin";
   };
 }
 
@@ -80,7 +80,7 @@ export default function ActivitiesClient({
     try {
       const result = await submitNewEventProposal(formData);
       if (result.success) {
-        setSuccessMessage("Proposal kegiatan berhasil diajukan untuk tinjauan pembina!");
+        setSuccessMessage("Pengajuan kegiatan berhasil dikirim ke admin.");
         reset();
         setTimeout(() => {
           setShowModal(false);
@@ -100,13 +100,13 @@ export default function ActivitiesClient({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "open":
-        return <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2.5 py-1 fw-bold">Terbit</span>;
+        return <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2.5 py-1 fw-bold">Dibuka</span>;
       case "closed":
-        return <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2.5 py-1">Selesai</span>;
+        return <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2.5 py-1">Ditutup</span>;
       case "pending_advisor":
-        return <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2.5 py-1">Review Pembina</span>;
+        return <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2.5 py-1">Tinjauan Administrator</span>;
       case "pending_dean":
-        return <span className="badge bg-info bg-opacity-10 text-info border border-info-subtle px-2.5 py-1">Review Admin</span>;
+        return <span className="badge bg-info bg-opacity-10 text-info border border-info-subtle px-2.5 py-1">Tinjauan Administrator</span>;
       case "rejected":
         return <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2.5 py-1">Ditolak</span>;
       default:
@@ -120,25 +120,25 @@ export default function ActivitiesClient({
       {/* Header and Quick action */}
       <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
         <div>
-          <h4 className="fw-extrabold text-dark mb-1">Kegiatan & Proker Kampus</h4>
-          <p className="text-secondary small mb-0 fw-medium">Direktori program kerja, delegasi, dan kompetisi resmi ORMAWA UNSRAT</p>
+          <h4 className="fw-extrabold text-dark mb-1">Kegiatan Mahasiswa</h4>
+          <p className="text-secondary small mb-0 fw-medium">Temukan program kerja, delegasi, dan kegiatan resmi ORMAWA UNSRAT.</p>
         </div>
         {isEligibleToPropose && (
           <button className="btn btn-primary hover-lift d-flex align-items-center gap-2 py-2.5 px-4 rounded-pill shadow-sm" onClick={() => setShowModal(true)}>
             <i className="bi bi-plus-circle-fill"></i>
-            <span className="fw-bold">Ajukan Proposal Event</span>
+            <span className="fw-bold">Ajukan Kegiatan</span>
           </button>
         )}
       </div>
 
-      {/* Grid for Students, Table for Lecturers/Admins */}
+      {/* Grid for Students, Table for Admins */}
       {user.role === "student" ? (
         <div className="row g-4">
           {initialActivities.length === 0 ? (
             <div className="col-12 text-center py-5">
               <i className="bi bi-calendar-x display-3 text-secondary opacity-50 mb-3"></i>
-              <h5>Tidak Ada Pendaftaran Aktif</h5>
-              <p className="text-secondary small">Belum ada kegiatan kemahasiswaan yang dibuka pendaftarannya saat ini.</p>
+              <h5>Belum Ada Kegiatan Dibuka</h5>
+              <p className="text-secondary small">Saat ini belum ada kegiatan yang membuka pendaftaran.</p>
             </div>
           ) : (
             initialActivities.map(({ event, organizer }) => {
@@ -186,7 +186,7 @@ export default function ActivitiesClient({
           )}
         </div>
       ) : (
-        /* Lecturer / Admin Table View */
+        /* Admin Table View */
         <div className="card border-0 rounded-4 card-glass-static">
           <div className="card-body p-4">
             {initialActivities.length === 0 ? (
@@ -201,7 +201,7 @@ export default function ActivitiesClient({
                       <th>Kategori</th>
                       <th>Lokasi</th>
                       <th>Pendaftar</th>
-                      <th>Status Proposal</th>
+                      <th>Status Pengajuan</th>
                       <th className="text-end">Aksi</th>
                     </tr>
                   </thead>
@@ -254,7 +254,7 @@ export default function ActivitiesClient({
       {/* AJUKAN PROPOSAL EVENT MODAL */}
       <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static" keyboard={false} size="lg" centered>
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">Formulir Pengajuan Proposal Kegiatan</Modal.Title>
+          <Modal.Title className="fw-bold">Ajukan Kegiatan ORMAWA</Modal.Title>
         </Modal.Header>
         <Modal.Body className="pt-2">
           
@@ -271,7 +271,7 @@ export default function ActivitiesClient({
               {/* Select Organizing Ormawa */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Organisasi Pengaju</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">ORMAWA Pengaju</Form.Label>
                   {user.role === "admin" ? (
                     <Form.Select className={`py-2 curator-input ${errors.activityId ? 'is-invalid' : ''}`} {...register("activityId")}>
                       <option value="">-- Pilih Organisasi --</option>
@@ -294,7 +294,7 @@ export default function ActivitiesClient({
               {/* Event Name */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Nama Kegiatan / Event</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Nama Kegiatan</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Contoh: Latihan Kepemimpinan Mahasiswa Informatika"
@@ -308,11 +308,11 @@ export default function ActivitiesClient({
               {/* Description */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Deskripsi & Tujuan Kegiatan</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Tujuan dan Gambaran Kegiatan</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
-                    placeholder="Jelaskan secara mendalam tentang rincian, tujuan, dan sasaran dari kegiatan yang diajukan ini..."
+                    placeholder="Jelaskan latar belakang, tujuan, sasaran, dan gambaran pelaksanaan kegiatan."
                     className={`py-2 curator-input ${errors.description ? 'is-invalid' : ''}`}
                     {...register("description")}
                   />
@@ -325,8 +325,8 @@ export default function ActivitiesClient({
                 <Form.Group>
                   <Form.Label className="small fw-semibold text-secondary">Kategori Kegiatan</Form.Label>
                   <Form.Select className={`py-2 curator-input ${errors.category ? 'is-invalid' : ''}`} {...register("category")}>
-                    <option value="Program Kerja">Program Kerja (Bisa diikuti/daftar mahasiswa)</option>
-                    <option value="Delegasi/Lomba">Delegasi / Lomba Mandiri</option>
+                    <option value="Program Kerja">Program Kerja (terbuka untuk pendaftaran mahasiswa)</option>
+                    <option value="Delegasi/Lomba">Delegasi / Lomba</option>
                   </Form.Select>
                   {errors.category && <div className="invalid-feedback">{errors.category.message}</div>}
                 </Form.Group>
@@ -414,7 +414,7 @@ export default function ActivitiesClient({
                     Mengajukan...
                   </>
                 ) : (
-                  "Ajukan Proposal"
+                  "Kirim Pengajuan"
                 )}
               </Button>
             </div>

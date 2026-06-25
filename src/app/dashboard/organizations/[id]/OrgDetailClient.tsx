@@ -63,7 +63,7 @@ interface OrgDetailClientProps {
   user: {
     id: string;
     name: string;
-    role: "student" | "lecturer" | "admin";
+    role: "student" | "admin";
     nim: string;
   };
   membership: {
@@ -317,7 +317,7 @@ export default function OrgDetailClient({
               </span>
             </div>
             <h2 className="fw-extrabold text-white mb-3">{organization.name}</h2>
-            <p className="text-white-50 leading-relaxed mb-0">
+            <p className="text-white text-opacity-80 leading-relaxed mb-0">
               {organization.description || "Organisasi kemahasiswaan Universitas Sam Ratulangi."}
             </p>
           </div>
@@ -591,7 +591,7 @@ export default function OrgDetailClient({
                             {evt.status === "open" ? (
                               <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle">Disetujui WD III</span>
                             ) : evt.status === "pending_advisor" ? (
-                              <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle">Review Pembina</span>
+                              <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle">Tinjauan Admin</span>
                             ) : evt.status === "pending_dean" ? (
                               <span className="badge bg-info bg-opacity-10 text-info border border-info-subtle">Review WD III</span>
                             ) : evt.status === "rejected" ? (

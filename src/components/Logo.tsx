@@ -90,11 +90,11 @@ export default function Logo({
             y="88" 
             fontFamily="'Inter', sans-serif" 
             fontWeight="500" 
-            fontSize="9.5" 
+            fontSize="8.5" 
             fill={subtextColor} 
-            letterSpacing="1.2"
+            letterSpacing="0.6"
           >
-            Connect • Collaborate • Create
+            Berkolaborasi • Berkarya • Berdampak
           </text>
         </g>
       )}

@@ -9,13 +9,13 @@ import { registerAction } from "@/app/actions/auth";
 import Logo from "@/components/Logo";
 
 const registerSchema = z.object({
-  name: z.string().min(3, "Nama minimal harus 3 karakter"),
+  name: z.string().min(3, "Nama minimal 3 karakter"),
   email: z.string().email("Format email tidak valid"),
-  password: z.string().min(6, "Password minimal 6 karakter"),
-  nim: z.string().min(5, "NIM/NIP minimal harus 5 karakter"),
+  password: z.string().min(6, "Kata sandi minimal 6 karakter"),
+  nim: z.string().min(5, "NIM minimal 5 karakter"),
   faculty: z.string().min(2, "Fakultas wajib diisi"),
-  major: z.string().min(2, "Jurusan/Program Studi wajib diisi"),
-  role: z.enum(["student", "lecturer", "admin"]).default("student"),
+  major: z.string().min(2, "Program studi wajib diisi"),
+  role: z.enum(["student", "admin"]).default("student"),
 });
 
 type RegisterInput = z.infer<typeof registerSchema>;
@@ -54,7 +54,7 @@ export default function RegisterPage() {
     try {
       const response = await registerAction(null, formData);
       if (response && !response.success) {
-        setGeneralError(response.error || "Gagal mendaftar. Silakan periksa kembali inputan Anda.");
+        setGeneralError(response.error || "Gagal mendaftar. Silakan periksa kembali data yang Anda isi.");
       } else {
         setSuccessMsg("Akun berhasil dibuat! Silakan masuk.");
       }
@@ -66,13 +66,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-mesh-light p-3 position-relative overflow-hidden">
-      {/* Decorative floating blobs in the background */}
-      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '300px', height: '300px', filter: 'blur(30px)', top: '-50px', left: '-50px', pointerEvents: 'none' }}></div>
-      <div className="position-absolute rounded-circle opacity-10" style={{ background: 'linear-gradient(135deg, #E31B23, #B90D23)', width: '280px', height: '280px', filter: 'blur(30px)', bottom: '-50px', right: '-50px', pointerEvents: 'none' }}></div>
-
+    <div className="container-fluid min-vh-100 d-flex align-items-center justify-content-center auth-shell p-3 position-relative overflow-hidden">
       {/* Main Glassmorphic Register Card */}
-      <div className="card-glass-premium border-0 p-4 p-md-5 shadow text-dark" style={{ maxWidth: "680px", width: "100%", zIndex: 10, marginTop: "20px", marginBottom: "20px" }}>
+      <div className="card-glass-premium auth-card border-0 p-4 p-md-5 shadow text-dark" style={{ maxWidth: "680px", width: "100%", zIndex: 10, marginTop: "20px", marginBottom: "20px" }}>
         {/* Back Button */}
         <Link href="/" className="text-decoration-none text-secondary small mb-4 d-inline-flex align-items-center gap-2 hover-lift btn-back-hover fw-medium">
           <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Beranda
@@ -81,12 +77,12 @@ export default function RegisterPage() {
         {/* Centered Logo */}
         <div className="d-flex flex-column align-items-center mb-4 text-center">
           <Logo theme="light" height={50} />
-          <p className="text-secondary small mt-2 mb-0 fw-medium">Sistem Manajemen Ormawa Terintegrasi</p>
+          <p className="text-secondary small mt-2 mb-0 fw-medium">Ruang Digital ORMAWA UNSRAT</p>
         </div>
 
         <div className="mb-4 text-center">
-          <h3 className="fw-extrabold text-dark mb-1">Daftar Akun Baru</h3>
-          <p className="text-secondary small">Lengkapi data diri Anda di bawah ini untuk bergabung</p>
+          <h3 className="fw-extrabold text-dark mb-1">Buat Akun Mahasiswa</h3>
+          <p className="text-secondary small">Lengkapi data kampus agar Anda bisa mendaftar organisasi dan kegiatan.</p>
         </div>
 
         {/* Error Message */}
@@ -114,15 +110,15 @@ export default function RegisterPage() {
               <input
                 type="text"
                 className={`form-control curator-input ${errors.name ? 'is-invalid' : ''}`}
-                placeholder="Contoh: John Doe"
+                placeholder="Contoh: Maria Rumondor"
                 {...register("name")}
               />
               {errors.name && <div className="invalid-feedback text-danger small mt-1">{errors.name.message}</div>}
             </div>
 
-            {/* NIM / NIP */}
+            {/* NIM */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-secondary">NIM / NIP</label>
+              <label className="form-label fw-semibold small text-secondary">NIM</label>
               <input
                 type="text"
                 className={`form-control curator-input ${errors.nim ? 'is-invalid' : ''}`}
@@ -138,7 +134,7 @@ export default function RegisterPage() {
               <input
                 type="email"
                 className={`form-control curator-input ${errors.email ? 'is-invalid' : ''}`}
-                placeholder="name@student.unsrat.ac.id"
+                placeholder="nama@student.unsrat.ac.id"
                 {...register("email")}
               />
               {errors.email && <div className="invalid-feedback text-danger small mt-1">{errors.email.message}</div>}
@@ -146,7 +142,7 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div className="col-md-6 mb-3">
-              <label className="form-label fw-semibold small text-secondary">Password</label>
+              <label className="form-label fw-semibold small text-secondary">Kata Sandi</label>
               <input
                 type="password"
                 className={`form-control curator-input ${errors.password ? 'is-invalid' : ''}`}
@@ -186,48 +182,7 @@ export default function RegisterPage() {
               {errors.major && <div className="invalid-feedback text-danger small mt-1">{errors.major.message}</div>}
             </div>
 
-            {/* Role (for demo and review purpose) */}
-            <div className="col-md-12 mb-4">
-              <label className="form-label fw-semibold small text-secondary">Daftar Sebagai (Peran Pengguna)</label>
-              <div className="d-flex flex-wrap gap-4 mt-1">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    id="roleStudent"
-                    value="student"
-                    {...register("role")}
-                  />
-                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleStudent">
-                    Mahasiswa
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    id="roleLecturer"
-                    value="lecturer"
-                    {...register("role")}
-                  />
-                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleLecturer">
-                    Admin
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    id="roleAdmin"
-                    value="admin"
-                    {...register("role")}
-                  />
-                  <label className="form-check-label text-secondary small fw-medium" htmlFor="roleAdmin">
-                    Admin
-                  </label>
-                </div>
-              </div>
-            </div>
+            <input type="hidden" value="student" {...register("role")} />
 
           </div>
 
@@ -241,19 +196,19 @@ export default function RegisterPage() {
             {loading ? (
               <>
                 <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Mendaftarkan...
+                Membuat akun...
               </>
             ) : (
-              "Buat Akun Baru"
+              "Buat Akun"
             )}
           </button>
         </form>
 
         <div className="text-center mt-3">
           <p className="text-secondary small mb-0 fw-medium">
-            Sudah memiliki akun?{" "}
+            Sudah punya akun?{" "}
             <Link href="/login" className="text-primary fw-bold text-decoration-none">
-              Masuk di sini
+              Masuk
             </Link>
           </p>
         </div>

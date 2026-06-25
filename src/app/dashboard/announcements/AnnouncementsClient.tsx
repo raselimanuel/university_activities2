@@ -60,7 +60,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
     try {
       const result = await createAnnouncement(formData);
       if (result.success) {
-        setSuccessMsg("Pengumuman berhasil diposting!");
+        setSuccessMsg("Pengumuman berhasil diterbitkan.");
         reset();
         setTimeout(() => {
           setShowModal(false);
@@ -82,13 +82,13 @@ export default function AnnouncementsClient({ announcements: list, activities, u
       
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h4 className="fw-bold text-dark mb-1">Mading Pengumuman</h4>
-          <p className="text-secondary small mb-0">Informasi terbaru seputar kegiatan organisasi kemahasiswaan UNSRAT</p>
+          <h4 className="fw-bold text-dark mb-1">Mading ORMAWA</h4>
+          <p className="text-secondary small mb-0">Kabar terbaru dari organisasi mahasiswa UNSRAT.</p>
         </div>
         {userRole === "admin" && (
           <button className="btn btn-primary rounded-pill hover-lift d-flex align-items-center gap-2 px-4 py-2.5 shadow-sm fw-bold border-0" onClick={() => setShowModal(true)}>
             <i className="bi bi-megaphone-fill"></i>
-            <span>Buat Pengumuman</span>
+            <span>Tulis Pengumuman</span>
           </button>
         )}
       </div>
@@ -98,8 +98,8 @@ export default function AnnouncementsClient({ announcements: list, activities, u
           {list.length === 0 ? (
             <div className="card-glass-static border-0 shadow-sm rounded-4 p-5 text-center text-dark">
               <i className="bi bi-megaphone display-4 text-secondary opacity-50 mb-3"></i>
-              <h5 className="fw-bold">Belum Ada Pengumuman</h5>
-              <p className="text-secondary small mb-0">Halaman mading pengumuman saat ini masih kosong.</p>
+              <h5 className="fw-bold">Belum Ada Kabar</h5>
+              <p className="text-secondary small mb-0">Belum ada pengumuman yang diterbitkan.</p>
             </div>
           ) : (
             <div className="d-flex flex-column gap-3">
@@ -133,7 +133,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                       
                       <div className="d-flex align-items-center gap-2 border-top pt-2">
                         <i className="bi bi-tag text-muted small"></i>
-                        <span className="text-muted small">Terkait: <strong style={{ color: orgStyle.primary }}>{ann.activityName}</strong></span>
+                        <span className="text-muted small">Dari: <strong style={{ color: orgStyle.primary }}>{ann.activityName}</strong></span>
                       </div>
                     </div>
 
@@ -148,7 +148,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
       {/* CREATE ANNOUNCEMENT MODAL */}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">Buat Pengumuman Baru</Modal.Title>
+          <Modal.Title className="fw-bold">Tulis Pengumuman</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {errorMsg && <div className="alert alert-danger rounded-3 py-2 small mb-3">{errorMsg}</div>}
@@ -160,14 +160,14 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               {/* Title */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Judul Pengumuman</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Judul</Form.Label>
                   <div className="input-group">
                     <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
                       <i className="bi bi-chat-left-text"></i>
                     </span>
                     <Form.Control
                       type="text"
-                      placeholder="Contoh: Pengunduran Jadwal Sidang LDKM Informatika"
+                      placeholder="Contoh: Jadwal rapat anggota HMTI minggu ini"
                       className={`border-start-0 ${errors.title ? 'is-invalid' : ''}`}
                       style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
                       {...register("title")}
@@ -180,11 +180,11 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               {/* Content */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Isi / Konten Pengumuman</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Isi Pengumuman</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
-                    placeholder="Tulis detail pengumuman yang ingin disampaikan..."
+                    placeholder="Tulis informasi utama, waktu, tempat, dan hal penting yang perlu diketahui anggota."
                     className={errors.content ? 'is-invalid' : ''}
                     style={{ borderRadius: "10px", padding: "12px" }}
                     {...register("content")}
@@ -196,7 +196,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
               {/* Activity Link */}
               <div className="col-md-6">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Hubungkan dengan Kegiatan</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Tautkan ke ORMAWA/Kegiatan</Form.Label>
                   <div className="input-group">
                     <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
                       <i className="bi bi-grid"></i>
@@ -206,7 +206,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                       style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
                       {...register("activityId")}
                     >
-                      <option value="">-- Pilih Kegiatan Terkait --</option>
+                      <option value="">-- Pilih ORMAWA atau kegiatan --</option>
                       {activities.map((act) => (
                         <option key={act.id} value={act.id}>{act.name}</option>
                       ))}
@@ -222,7 +222,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                   <Form.Check
                     type="checkbox"
                     id="isUrgent"
-                    label="Tandai sebagai pengumuman Penting"
+                    label="Tandai sebagai penting"
                     className="fw-semibold text-danger small"
                     {...register("isUrgent")}
                   />
@@ -235,7 +235,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                   <Form.Check
                     type="switch"
                     id="isPublic"
-                    label="Tersedia untuk Umum (Publik)"
+                    label="Tampilkan untuk umum"
                     className="fw-semibold text-secondary small"
                     {...register("isPublic")}
                   />
@@ -249,7 +249,7 @@ export default function AnnouncementsClient({ announcements: list, activities, u
                 Batal
               </Button>
               <Button variant="primary" type="submit" className="rounded-pill px-4 btn-sm fw-bold hover-lift text-white border-0" disabled={loading} style={{ background: "var(--primary-gradient)" }}>
-                {loading ? "Memposting..." : "Posting Pengumuman"}
+                {loading ? "Menerbitkan..." : "Terbitkan"}
               </Button>
             </div>
           </Form>

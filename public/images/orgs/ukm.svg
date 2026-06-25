@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Unit Kegiatan Mahasiswa">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d97706"/>
+      <stop offset="1" stop-color="#e31b23"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#fffaf0"/>
+  <path d="M0 78 C105 32 190 90 295 55 C420 14 520 50 640 20 L640 140 C510 175 430 112 320 150 C210 188 105 132 0 174 Z" fill="url(#g)" opacity=".12"/>
+  <rect x="70" y="78" width="500" height="205" rx="28" fill="#ffffff" stroke="#f4d3a2"/>
+  <circle cx="185" cy="166" r="38" fill="#d97706" opacity=".18"/>
+  <circle cx="285" cy="166" r="38" fill="#e31b23" opacity=".18"/>
+  <circle cx="385" cy="166" r="38" fill="#0b3c5d" opacity=".16"/>
+  <text x="100" y="245" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#111827">Unit Kegiatan Mahasiswa</text>
+  <text x="100" y="274" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#6b7280">Minat, bakat, pengabdian, dan prestasi</text>
+</svg>

@@ -15,7 +15,7 @@ import {
 import { getFacultyStyle } from "@/utils/faculty";
 
 const rejectFormSchema = z.object({
-  comment: z.string().min(5, "Alasan penolakan minimal 5 karakter"),
+  comment: z.string().min(5, "Catatan minimal 5 karakter"),
 });
 
 type RejectInput = z.infer<typeof rejectFormSchema>;
@@ -27,7 +27,7 @@ interface ActivityDetailClientProps {
   user: {
     id: string;
     name: string;
-    role: "student" | "lecturer" | "admin";
+    role: "student" | "admin";
   };
   registrationStatus: "not_registered" | "pending" | "approved" | "rejected";
 }
@@ -64,7 +64,7 @@ export default function ActivityDetailClient({
     try {
       const result = await registerForEvent(event.id);
       if (result.success) {
-        setSuccessMsg("Pendaftaran Anda berhasil dikirim!");
+        setSuccessMsg("Anda berhasil terdaftar di kegiatan ini.");
         setTimeout(() => window.location.reload(), 1500);
       } else {
         setErrorMsg(result.error || "Gagal melakukan pendaftaran.");
@@ -83,9 +83,9 @@ export default function ActivityDetailClient({
     setSuccessMsg(null);
 
     try {
-      const result = await approveEventProposal(event.id, user.role as "lecturer" | "admin");
+      const result = await approveEventProposal(event.id);
       if (result.success) {
-        setSuccessMsg("Proposal disetujui dan status telah diperbarui!");
+        setSuccessMsg("Proposal disetujui.");
         setTimeout(() => window.location.reload(), 1500);
       } else {
         setErrorMsg(result.error || "Gagal menyetujui proposal.");
@@ -105,11 +105,11 @@ export default function ActivityDetailClient({
     try {
       const result = await rejectEventProposal(event.id, data.comment);
       if (result.success) {
-        setSuccessMsg("Proposal kegiatan ditolak dan dikembalikan ke pengaju.");
+        setSuccessMsg("Proposal dikembalikan ke pengaju dengan catatan.");
         setShowRejectModal(false);
         setTimeout(() => window.location.reload(), 1500);
       } else {
-        setErrorMsg(result.error || "Gagal menolak proposal.");
+        setErrorMsg(result.error || "Gagal mengirim catatan.");
       }
     } catch (err) {
       setErrorMsg("Kesalahan server saat memproses penolakan.");
@@ -119,7 +119,7 @@ export default function ActivityDetailClient({
   };
 
   const handleMarkAsCompleted = async () => {
-    if (!confirm("Tandai kegiatan ini sebagai SELESAI dan catat sebagai prestasi Ormawa?")) return;
+    if (!confirm("Tandai kegiatan ini selesai dan simpan sebagai prestasi ORMAWA?")) return;
     setLoading(true);
     setErrorMsg(null);
     setSuccessMsg(null);
@@ -127,7 +127,7 @@ export default function ActivityDetailClient({
     try {
       const result = await markEventAsAchievement(event.id);
       if (result.success) {
-        setSuccessMsg("Kegiatan sukses diselesaikan dan masuk dalam papan prestasi!");
+        setSuccessMsg("Kegiatan ditandai selesai dan masuk ke arsip prestasi.");
         setTimeout(() => window.location.reload(), 1500);
       } else {
         setErrorMsg(result.error || "Gagal memperbarui status kegiatan.");
@@ -141,12 +141,22 @@ export default function ActivityDetailClient({
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case "open": return <span className="badge bg-success px-3 py-2 rounded-pill">Pendaftaran Buka / Terbit</span>;
+      case "open": return <span className="badge bg-success px-3 py-2 rounded-pill">Pendaftaran Dibuka</span>;
       case "closed": return <span className="badge bg-secondary px-3 py-2 rounded-pill">Ditutup</span>;
-      case "pending_advisor": return <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">Review Admin</span>;
-      case "pending_dean": return <span className="badge bg-info text-white px-3 py-2 rounded-pill">Review Admin</span>;
-      case "rejected": return <span className="badge bg-danger px-3 py-2 rounded-pill">Proposal Ditolak</span>;
+      case "pending_advisor": return <span className="badge bg-warning text-dark px-3 py-2 rounded-pill">Tinjauan Administrator</span>;
+      case "pending_dean": return <span className="badge bg-info text-white px-3 py-2 rounded-pill">Tinjauan Administrator</span>;
+      case "rejected": return <span className="badge bg-danger px-3 py-2 rounded-pill">Pengajuan Ditolak</span>;
       default: return <span className="badge bg-light text-dark px-3 py-2 rounded-pill">{status}</span>;
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "closed": return "Kegiatan sudah ditutup";
+      case "pending_advisor": return "Menunggu tinjauan admin";
+      case "pending_dean": return "Menunggu persetujuan administrator";
+      case "rejected": return "Pengajuan perlu diperbaiki";
+      default: return status;
     }
   };
 
@@ -165,7 +175,7 @@ export default function ActivityDetailClient({
       {/* Navigation link back */}
       <div className="mb-4">
         <Link href="/dashboard/activities" className="text-secondary text-decoration-none small fw-semibold btn-back-hover d-inline-flex align-items-center gap-1">
-          <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Daftar Kegiatan
+          <i className="bi bi-arrow-left animate-arrow-left"></i> Kembali ke Kegiatan
         </Link>
       </div>
 
@@ -191,14 +201,14 @@ export default function ActivityDetailClient({
 
             <h2 className="fw-extrabold text-dark mb-4">{event.name}</h2>
             
-            <h5 className="fw-bold mb-3">Deskripsi & Tujuan Kegiatan</h5>
+            <h5 className="fw-bold mb-3">Tentang Kegiatan</h5>
             <p className="text-secondary leading-relaxed mb-4" style={{ whiteSpace: "pre-line" }}>
               {event.description}
             </p>
 
             <div className="row g-3 border-top pt-4 mt-4">
               <div className="col-sm-6">
-                <span className="text-muted small d-block">Penyelenggara (Ormawa Induk)</span>
+                <span className="text-muted small d-block">Penyelenggara</span>
                 <strong className="text-dark">
                   <Link href={`/dashboard/organizations/${organizer.id}`} className="text-decoration-none hover-underline" style={{ color: orgStyle.primary, fontWeight: 'bold' }}>
                     {organizer.name} <i className="bi bi-box-arrow-up-right small ms-1"></i>
@@ -211,7 +221,7 @@ export default function ActivityDetailClient({
               </div>
               <div className="col-sm-6">
                 <span className="text-muted small d-block">Diajukan Oleh</span>
-                <strong className="text-dark">{creatorName || "Pengurus Ormawa"}</strong>
+                <strong className="text-dark">{creatorName || "Pengurus ORMAWA"}</strong>
               </div>
               <div className="col-sm-6">
                 <span className="text-muted small d-block">Tanggal Pelaksanaan</span>
@@ -257,35 +267,18 @@ export default function ActivityDetailClient({
 
           {/* Dynamic Actions based on Role and Status */}
           
-          {/* 1. LECTURER CONTROL AREA */}
-          {user.role === "lecturer" && event.status === "pending_advisor" && (
-            <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4">
-              <h5 className="fw-bold text-dark mb-3">Persetujuan Pembina</h5>
-              <p className="text-muted small mb-4">Sebagai Admin, Anda dapat menyetujui pengajuan proposal kegiatan ini untuk dilanjutkan ke tahap admin berikutnya.</p>
-              
-              <div className="d-flex flex-column gap-2">
-                <button className="btn btn-success py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={onApprove} disabled={loading}>
-                  <i className="bi bi-check-lg me-2"></i> Setujui Proposal
-                </button>
-                <button className="btn btn-outline-danger py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={() => setShowRejectModal(true)} disabled={loading}>
-                  <i className="bi bi-x-lg me-2"></i> Tolak Proposal
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* 2. ADMIN / VICE DEAN CONTROL AREA */}
+          {/* ADMIN CONTROL AREA */}
           {user.role === "admin" && event.status === "pending_dean" && (
             <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4">
-              <h5 className="fw-bold text-dark mb-3">Persetujuan Admin</h5>
-              <p className="text-muted small mb-4">Sebagai Admin, menyetujui proposal ini akan otomatis membuka status pendaftaran mahasiswa secara publik.</p>
+              <h5 className="fw-bold text-dark mb-3">Persetujuan Administrator</h5>
+              <p className="text-muted small mb-4">Sebagai administrator, persetujuan ini akan membuka pendaftaran mahasiswa secara publik.</p>
               
               <div className="d-flex flex-column gap-2">
                 <button className="btn btn-primary py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm text-white" onClick={onApprove} disabled={loading} style={{ background: 'var(--primary-gradient)', border: 'none' }}>
-                  <i className="bi bi-check-lg me-2"></i> Setujui & Buka Kegiatan
+                  <i className="bi bi-check-lg me-2"></i> Setujui dan Buka Pendaftaran
                 </button>
                 <button className="btn btn-outline-danger py-2.5 rounded-pill fw-bold hover-lift shadow-sm btn-sm" onClick={() => setShowRejectModal(true)} disabled={loading}>
-                  <i className="bi bi-x-lg me-2"></i> Tolak Proposal
+                  <i className="bi bi-x-lg me-2"></i> Kembalikan dengan Catatan
                 </button>
               </div>
             </div>
@@ -304,11 +297,11 @@ export default function ActivityDetailClient({
                 <>
                   {event.registered >= event.quota ? (
                     <div className="alert alert-danger border-0 py-3 mb-0 small text-center fw-medium">
-                      Kuota Pendaftaran Penuh
+                      Kuota sudah penuh
                     </div>
                   ) : (
                     <button className="btn text-white w-100 py-2.5 rounded-pill fw-bold hover-lift shadow-sm" style={{ background: orgStyle.gradient, border: 'none' }} onClick={onRegister} disabled={loading}>
-                      {loading ? "Mendaftarkan..." : "Daftar Kegiatan"}
+                      {loading ? "Mendaftar..." : "Daftar Kegiatan"}
                     </button>
                   )}
                 </>
@@ -319,10 +312,10 @@ export default function ActivityDetailClient({
           {/* 4. LEADER/MANAGER EVENT FINISH FLOW (For open upcoming/ongoing events) */}
           {(user.role === "admin" || user.id === event.createdBy) && event.status === "open" && event.eventState !== "Selesai" && (
             <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark mb-4 text-center">
-              <h5 className="fw-bold text-dark mb-3">Manajemen Event</h5>
+              <h5 className="fw-bold text-dark mb-3">Kelola Kegiatan</h5>
               <p className="text-secondary small mb-4">Tandai kegiatan ini sebagai selesai jika pelaksanaan program kerja atau kompetisi delegasi telah berakhir.</p>
               <button className="btn btn-warning w-100 py-2.5 rounded-pill fw-bold hover-lift shadow-sm text-dark" onClick={handleMarkAsCompleted} disabled={loading}>
-                Selesaikan Kegiatan & Log Prestasi
+                Tandai Selesai dan Simpan Prestasi
               </button>
             </div>
           )}
@@ -331,8 +324,8 @@ export default function ActivityDetailClient({
           {event.status !== "open" && user.role === "student" && (
             <div className="card-glass-static border-0 p-4 rounded-4 shadow-sm text-dark text-center">
               <i className="bi bi-lock-fill display-5 text-secondary opacity-50 mb-2"></i>
-              <h5 className="fw-bold">Pendaftaran Terkunci</h5>
-              <p className="text-secondary small mb-0">Status proposal kegiatan ini adalah <strong>{event.status.replace("_", " ")}</strong>.</p>
+              <h5 className="fw-bold">Pendaftaran Belum Dibuka</h5>
+              <p className="text-secondary small mb-0">Status kegiatan: <strong>{getStatusText(event.status)}</strong>.</p>
             </div>
           )}
 
@@ -342,16 +335,16 @@ export default function ActivityDetailClient({
       {/* REJECTION COMMENT MODAL */}
       <Modal show={showRejectModal} onHide={() => setShowRejectModal(false)} centered>
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">Alasan Penolakan Proposal</Modal.Title>
+          <Modal.Title className="fw-bold">Catatan untuk Pengaju</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleRejectSubmit(onReject)}>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-semibold text-secondary">Catatan Evaluasi / Alasan Penolakan</Form.Label>
+              <Form.Label className="small fw-semibold text-secondary">Catatan Evaluasi</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
-                placeholder="Tulis alasan penolakan secara mendalam untuk panduan perbaikan..."
+                placeholder="Tulis catatan yang jelas agar pengaju tahu bagian yang perlu diperbaiki."
                 className={rejectErrors.comment ? 'is-invalid' : ''}
                 style={{ borderRadius: "10px", padding: "12px" }}
                 {...rejectInputFields("comment")}
@@ -364,7 +357,7 @@ export default function ActivityDetailClient({
                 Batal
               </Button>
               <Button variant="danger" className="rounded-pill px-4 btn-sm fw-bold hover-lift" type="submit" disabled={loading}>
-                {loading ? "Menolak..." : "Tolak Proposal"}
+                {loading ? "Mengirim..." : "Kirim Catatan"}
               </Button>
             </div>
           </Form>

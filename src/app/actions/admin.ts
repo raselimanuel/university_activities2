@@ -28,6 +28,19 @@ async function verifyAdmin() {
 export async function adminGetActivities() {
   try {
     await verifyAdmin();
+    // Ranking: organisasi paling aktif & lengkap di paling atas
+    const activityRank = sql`(
+      COALESCE(${activities.registered}, 0)
+      + (SELECT COUNT(*) FROM ${events} WHERE ${events.activityId} = ${activities.id} AND ${events.status} IN ('open','closed')) * 2
+      + (SELECT COUNT(*) FROM ${announcements} WHERE ${announcements.activityId} = ${activities.id})
+      + (SELECT COUNT(*) FROM ${achievements} WHERE ${achievements.activityId} = ${activities.id}) * 2
+      + (CASE WHEN ${activities.description} IS NOT NULL AND length(trim(${activities.description})) > 0 THEN 2 ELSE 0 END)
+      + (CASE WHEN ${activities.imageUrl} IS NOT NULL AND length(trim(${activities.imageUrl})) > 0 THEN 2 ELSE 0 END)
+      + (CASE WHEN ${activities.whatsappLink} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.registrationStart} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.registrationEnd} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.quota} > 0 THEN 1 ELSE 0 END)
+    ) DESC`;
     const result = await db
       .select({
         id: activities.id,
@@ -46,7 +59,7 @@ export async function adminGetActivities() {
         registrationEnd: activities.registrationEnd,
       })
       .from(activities)
-      .orderBy(activities.name);
+      .orderBy(activityRank, activities.name);
 
     return { success: true, activities: result };
   } catch (error: any) {

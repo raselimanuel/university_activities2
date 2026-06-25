@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Himpunan Mahasiswa">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3c5d"/>
+      <stop offset="1" stop-color="#2a9d8f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#f4fbfb"/>
+  <circle cx="138" cy="126" r="62" fill="url(#g)" opacity=".12"/>
+  <circle cx="500" cy="250" r="86" fill="url(#g)" opacity=".10"/>
+  <rect x="70" y="70" width="500" height="220" rx="28" fill="#ffffff" stroke="#d3ece9"/>
+  <path d="M165 204 L240 130 L315 204 L390 130 L465 204" stroke="url(#g)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="100" y="252" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="800" fill="#111827">Himpunan Mahasiswa</text>
+  <text x="100" y="280" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" fill="#6b7280">Ruang kaderisasi, akademik, dan profesi</text>
+</svg>

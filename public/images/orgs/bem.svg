@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="BEM ORMAWA">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e31b23"/>
+      <stop offset="1" stop-color="#8b1020"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" rx="32" fill="#fff7f7"/>
+  <path d="M0 270 C120 215 230 330 360 265 C480 205 550 245 640 205 L640 360 L0 360 Z" fill="url(#g)" opacity=".16"/>
+  <circle cx="505" cy="82" r="88" fill="url(#g)" opacity=".12"/>
+  <circle cx="118" cy="102" r="54" fill="#e31b23" opacity=".13"/>
+  <rect x="70" y="70" width="500" height="220" rx="28" fill="#ffffff" stroke="#f2c1c5"/>
+  <text x="100" y="142" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" fill="#991b1b">BEM</text>
+  <text x="100" y="192" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="700" fill="#111827">Organisasi Eksekutif Mahasiswa</text>
+  <text x="100" y="235" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="500" fill="#6b7280">Aspirasi, program kerja, dan kolaborasi kampus</text>
+</svg>

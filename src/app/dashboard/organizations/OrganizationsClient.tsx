@@ -43,8 +43,8 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
       
       <div className="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
         <div>
-          <h4 className="fw-extrabold text-dark mb-1">Direktori Resmi ORMAWA</h4>
-          <p className="text-secondary small mb-0 fw-medium">Daftar Lembaga, Himpunan, dan Unit Kegiatan Mahasiswa (UKM) aktif di lingkungan UNSRAT</p>
+          <h4 className="fw-extrabold text-dark mb-1">Organisasi Mahasiswa</h4>
+          <p className="text-secondary small mb-0 fw-medium">Temukan BEM, BPM, himpunan, dan UKM aktif di lingkungan UNSRAT.</p>
         </div>
         
         {/* Filter Buttons - Premium Pill Navigation */}
@@ -56,7 +56,7 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
               onClick={() => setFilter(type)}
               style={{ transition: "all 0.2s" }}
             >
-              {type === "All" ? "Semua ORMAWA" : type}
+              {type === "All" ? "Semua" : type}
             </button>
           ))}
         </div>
@@ -97,7 +97,7 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
                   {/* Header Gradient based on Faculty */}
                   <div className="p-3 text-white d-flex align-items-center justify-content-between" style={{ background: orgStyle.gradient }}>
                     <span className="badge bg-white bg-opacity-20 text-white border border-white border-opacity-20 px-2.5 py-1 fw-bold text-uppercase small" style={{ fontSize: '0.65rem' }}>
-                      Tingkat {org.organizationLevel}
+                      Lingkup {org.organizationLevel}
                     </span>
                     <PremiumIcon 
                       icon={icon}
@@ -111,21 +111,21 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
                     <div className="mb-3 d-flex justify-content-between align-items-center">
                       <span className="badge bg-light text-secondary border px-2 py-1 small">{org.orgType}</span>
                       {org.status === "open" ? (
-                        <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle small px-2 py-1 fw-bold">Pendaftaran Buka</span>
+                        <span className="badge bg-success bg-opacity-10 text-success border border-success-subtle small px-2 py-1 fw-bold">Buka Anggota</span>
                       ) : (
-                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle small px-2 py-1 fw-bold">Pendaftaran Tutup</span>
+                        <span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle small px-2 py-1 fw-bold">Tutup Anggota</span>
                       )}
                     </div>
                     
                     <h5 className="fw-extrabold text-dark mb-2" style={{ fontSize: '1.1rem' }}>{org.name}</h5>
                     <p className="text-secondary small flex-grow-1 mb-0 text-truncate-3" style={{ lineHeight: 1.5 }}>
-                      {org.description || "Tidak ada deskripsi yang tersedia untuk organisasi kemahasiswaan ini."}
+                      {org.description || "Profil organisasi belum dilengkapi."}
                     </p>
                     
                     <div className="mt-4 pt-3 border-top border-light d-flex justify-content-between align-items-center">
                       <span className="text-muted small fw-medium">{org.scopeName || "Cakupan Universitas"}</span>
                       <span className="small fw-bold animate-arrow" style={{ color: orgStyle.primary }}>
-                        Lihat Profil <i className="bi bi-arrow-right-short align-middle fs-5"></i>
+                        Buka Profil <i className="bi bi-arrow-right-short align-middle fs-5"></i>
                       </span>
                     </div>
                   </div>
@@ -137,7 +137,7 @@ export default function OrganizationsClient({ initialOrganizations }: Organizati
         {filteredData.length === 0 && (
           <div className="col-12 text-center py-5">
             <i className="bi bi-diagram-3 display-4 text-secondary opacity-50 mb-3"></i>
-            <p className="text-secondary">Tidak ada organisasi mahasiswa untuk kategori ini.</p>
+            <p className="text-secondary">Belum ada organisasi pada kategori ini.</p>
           </div>
         )}
       </div>

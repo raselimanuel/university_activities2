@@ -24,9 +24,9 @@ export default async function DashboardLayout({
         <i className="bi bi-exclamation-octagon-fill text-danger display-1 mb-3"></i>
         <h3 className="fw-bold">Profil Akun Tidak Ditemukan</h3>
         <p className="text-secondary max-w-md">
-          Sesi autentikasi Anda aktif, namun profil database mahasiswa belum terdaftar. Silakan hubungi admin kemahasiswaan.
+          Sesi akun Anda aktif, tetapi profil mahasiswa belum terdaftar. Silakan hubungi administrator kemahasiswaan.
         </p>
-        <a href="/login" className="btn btn-primary px-4 mt-2">Kembali ke Login</a>
+        <a href="/login" className="btn btn-primary px-4 mt-2">Kembali ke Halaman Masuk</a>
       </div>
     );
   }

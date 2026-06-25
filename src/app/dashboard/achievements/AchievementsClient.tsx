@@ -56,7 +56,7 @@ export default function AchievementsClient({ achievements: list, activities, use
     try {
       const result = await createAchievement(formData);
       if (result.success) {
-        setSuccessMsg("Prestasi ormawa berhasil ditambahkan!");
+        setSuccessMsg("Prestasi ORMAWA berhasil dicatat.");
         reset();
         setTimeout(() => {
           setShowModal(false);
@@ -78,13 +78,13 @@ export default function AchievementsClient({ achievements: list, activities, use
       
       <div className="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h4 className="fw-bold text-dark mb-1">Papan Prestasi Ormawa</h4>
-          <p className="text-secondary small mb-0">Daftar pencapaian dan prestasi gemilang organisasi mahasiswa UNSRAT</p>
+          <h4 className="fw-bold text-dark mb-1">Prestasi ORMAWA</h4>
+          <p className="text-secondary small mb-0">Arsip capaian organisasi mahasiswa UNSRAT.</p>
         </div>
         {userRole === "admin" && (
           <button className="btn btn-primary rounded-pill hover-lift d-flex align-items-center gap-2 px-4 py-2.5 shadow-sm fw-bold border-0" onClick={() => setShowModal(true)}>
             <i className="bi bi-trophy-fill"></i>
-            <span>Tambah Prestasi</span>
+            <span>Catat Prestasi</span>
           </button>
         )}
       </div>
@@ -94,8 +94,8 @@ export default function AchievementsClient({ achievements: list, activities, use
           <div className="col-12">
             <div className="card-glass-static border-0 shadow-sm rounded-4 p-5 text-center text-dark">
               <i className="bi bi-trophy display-4 text-secondary opacity-50 mb-3"></i>
-              <h5 className="fw-bold">Belum Ada Catatan Prestasi</h5>
-              <p className="text-secondary small mb-0">Saat ini belum ada prestasi ormawa yang diunggah.</p>
+              <h5 className="fw-bold">Belum Ada Prestasi</h5>
+              <p className="text-secondary small mb-0">Prestasi ORMAWA yang sudah dicatat akan tampil di sini.</p>
             </div>
           </div>
         ) : (
@@ -139,7 +139,7 @@ export default function AchievementsClient({ achievements: list, activities, use
 
                   <div className="mt-auto pt-3 border-top d-flex align-items-center gap-2">
                     <i className="bi bi-bookmark-star text-muted small"></i>
-                    <span className="text-muted small text-truncate">Ormawa: <strong style={{ color: orgStyle.primary }}>{ach.activityName}</strong></span>
+                    <span className="text-muted small text-truncate">ORMAWA: <strong style={{ color: orgStyle.primary }}>{ach.activityName}</strong></span>
                   </div>
                 </div>
               </div>
@@ -151,7 +151,7 @@ export default function AchievementsClient({ achievements: list, activities, use
       {/* ADD ACHIEVEMENT MODAL */}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
         <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">Tambah Prestasi Ormawa</Modal.Title>
+          <Modal.Title className="fw-bold">Catat Prestasi ORMAWA</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {errorMsg && <div className="alert alert-danger rounded-3 py-2 small mb-3">{errorMsg}</div>}
@@ -163,7 +163,7 @@ export default function AchievementsClient({ achievements: list, activities, use
               {/* Title */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Nama Prestasi / Perlombaan</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Nama Prestasi atau Kompetisi</Form.Label>
                   <div className="input-group">
                     <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
                       <i className="bi bi-trophy"></i>
@@ -223,11 +223,11 @@ export default function AchievementsClient({ achievements: list, activities, use
               {/* Description */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Deskripsi Singkat Prestasi</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">Catatan Singkat</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    placeholder="Ceritakan detail prestasi, inovasi yang dibawakan, atau delegasi yang dikirimkan..."
+                    placeholder="Ceritakan singkat capaian, delegasi, atau karya yang dihasilkan."
                     className="py-2"
                     style={{ borderRadius: "10px", padding: "12px" }}
                     {...register("description")}
@@ -238,7 +238,7 @@ export default function AchievementsClient({ achievements: list, activities, use
               {/* Related Activity */}
               <div className="col-12">
                 <Form.Group>
-                  <Form.Label className="small fw-semibold text-secondary">Diperoleh Oleh Organisasi (Kegiatan)</Form.Label>
+                  <Form.Label className="small fw-semibold text-secondary">ORMAWA</Form.Label>
                   <div className="input-group">
                     <span className="input-group-text text-secondary bg-light border-end-0" style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px" }}>
                       <i className="bi bi-grid"></i>
@@ -248,7 +248,7 @@ export default function AchievementsClient({ achievements: list, activities, use
                       style={{ borderTopRightRadius: "10px", borderBottomRightRadius: "10px" }}
                       {...register("activityId")}
                     >
-                      <option value="">-- Pilih Ormawa Terkait --</option>
+                      <option value="">-- Pilih ORMAWA --</option>
                       {activities.map((act) => (
                         <option key={act.id} value={act.id}>{act.name}</option>
                       ))}

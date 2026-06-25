@@ -10,7 +10,7 @@ interface DashboardShellProps {
   user: {
     name: string;
     nim: string;
-    role: "student" | "lecturer" | "admin";
+    role: "student" | "admin";
     faculty?: string | null;
     memberships?: { role: string; orgName: string }[];
   };
@@ -31,21 +31,17 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
   };
 
   const navLinks = [
-    { href: "/dashboard", label: "Dashboard", icon: "bi-grid-1x2-fill", roles: ["student", "lecturer", "admin"] },
-    { href: "/dashboard/activities", label: "Kegiatan Ormawa", icon: "bi-calendar2-event-fill", roles: ["student", "lecturer", "admin"] },
-    { href: "/dashboard/organizations", label: "Daftar Organisasi", icon: "bi-diagram-3-fill", roles: ["student", "lecturer", "admin"] },
-    { href: "/dashboard/achievements", label: "Papan Prestasi", icon: "bi-trophy-fill", roles: ["student", "lecturer", "admin"] },
-    { href: "/dashboard/announcements", label: "Pengumuman", icon: "bi-megaphone-fill", roles: ["student", "lecturer", "admin"] },
+    { href: "/dashboard", label: "Beranda", icon: "bi-grid-1x2-fill", roles: ["student", "admin"] },
+    { href: "/dashboard/activities", label: "Kegiatan", icon: "bi-calendar2-event-fill", roles: ["student", "admin"] },
+    { href: "/dashboard/organizations", label: "Organisasi", icon: "bi-diagram-3-fill", roles: ["student", "admin"] },
+    { href: "/dashboard/achievements", label: "Prestasi", icon: "bi-trophy-fill", roles: ["student", "admin"] },
+    { href: "/dashboard/announcements", label: "Mading", icon: "bi-megaphone-fill", roles: ["student", "admin"] },
   ];
 
   const getRoleBadge = (role: string, memberships?: { role: string; orgName: string }[]) => {
     if (role === "admin") {
-      return <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2.5 py-1">Admin</span>;
+      return <span className="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-2.5 py-1">Administrator</span>;
     }
-    if (role === "lecturer") {
-      return <span className="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2.5 py-1">Admin</span>;
-    }
-    
     const leaderOrManager = memberships?.find(m => m.role === "leader" || m.role === "manager");
     if (leaderOrManager) {
       const prefix = leaderOrManager.role === "leader" ? "Ketua" : "Pengurus";
@@ -83,12 +79,12 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </div>
 
         {/* Navigation links */}
-        <div className="sidebar-section-header">Navigasi Utama</div>
+        <div className="sidebar-section-header">Menu Utama</div>
         <nav className="nav flex-column px-2 gap-1 mb-3">
           {navLinks
             .filter((link) => link.roles.includes(user.role))
             .map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = pathname ? (pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href))) : false;
               return (
                 <Link
                   key={link.href}
@@ -106,7 +102,7 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </nav>
 
         {/* Footer actions */}
-        <div className="sidebar-section-header">Aksi Akun</div>
+        <div className="sidebar-section-header">Akun</div>
         <div className="px-2 pb-3 mt-auto" style={process.env.NODE_ENV === "development" ? { paddingBottom: "4.25rem" } : undefined}>
           <button
             type="button"
@@ -155,12 +151,12 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </div>
 
         {/* Navigation links */}
-        <div className="sidebar-section-header">Navigasi Utama</div>
+        <div className="sidebar-section-header">Menu Utama</div>
         <nav className="nav flex-column px-2 gap-1 mb-3">
           {navLinks
             .filter((link) => link.roles.includes(user.role))
             .map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = pathname ? (pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href))) : false;
               return (
                 <Link
                   key={link.href}
@@ -179,7 +175,7 @@ export default function DashboardShell({ user, children }: DashboardShellProps) 
         </nav>
 
         {/* Footer actions */}
-        <div className="sidebar-section-header">Aksi Akun</div>
+        <div className="sidebar-section-header">Akun</div>
         <div className="px-2 pb-3 mt-auto" style={process.env.NODE_ENV === "development" ? { paddingBottom: "4.25rem" } : undefined}>
           <button
             type="button"

@@ -1,7 +1,7 @@
 'use server'
 
 import { db } from "@/db";
-import { activities, activityUser, events, eventUser, users, notifications, achievements } from "@/db/schema";
+import { activities, activityUser, events, eventUser, users, notifications, achievements, announcements } from "@/db/schema";
 import { eq, and, sql, desc, or, isNull, lt } from "drizzle-orm";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
@@ -70,10 +70,23 @@ async function canViewPendingRequests(activityId: number) {
 // 1. Get all official organizations
 export async function getOrganizationsList() {
   try {
+    // Ranking: organisasi paling aktif & lengkap di paling atas
+    const activityRank = sql`(
+      COALESCE(${activities.registered}, 0)
+      + (SELECT COUNT(*) FROM ${events} WHERE ${events.activityId} = ${activities.id} AND ${events.status} IN ('open','closed')) * 2
+      + (SELECT COUNT(*) FROM ${announcements} WHERE ${announcements.activityId} = ${activities.id})
+      + (SELECT COUNT(*) FROM ${achievements} WHERE ${achievements.activityId} = ${activities.id}) * 2
+      + (CASE WHEN ${activities.description} IS NOT NULL AND length(trim(${activities.description})) > 0 THEN 2 ELSE 0 END)
+      + (CASE WHEN ${activities.imageUrl} IS NOT NULL AND length(trim(${activities.imageUrl})) > 0 THEN 2 ELSE 0 END)
+      + (CASE WHEN ${activities.whatsappLink} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.registrationStart} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.registrationEnd} IS NOT NULL THEN 1 ELSE 0 END)
+      + (CASE WHEN ${activities.quota} > 0 THEN 1 ELSE 0 END)
+    ) DESC`;
     const result = await db
       .select()
       .from(activities)
-      .orderBy(activities.name);
+      .orderBy(activityRank, activities.name);
     return { success: true, organizations: result };
   } catch (error: any) {
     return { success: false, error: error.message, organizations: [] };
@@ -353,7 +366,7 @@ export async function getEventsList(role: string, userId: string) {
         .where(eq(events.status, "open"))
         .orderBy(desc(events.createdAt));
     } else {
-      // Admin and Lecturers see everything
+      // Admin melihat semua event
       result = await db
         .select({
           event: events,
@@ -426,7 +439,7 @@ export async function submitNewEventProposal(formData: FormData) {
       quota: category === "Program Kerja" ? quota : null,
       startDate: new Date(startDateStr),
       endDate: new Date(endDateStr),
-      status: "pending_advisor", // Default goes to Lecturer Review
+      status: "pending_dean", // Langsung ke persetujuan admin
       eventState: "Akan Datang",
       createdBy: user.id,
     });
@@ -439,7 +452,7 @@ export async function submitNewEventProposal(formData: FormData) {
 }
 
 // 4. Approve event proposal (advisor / dean)
-export async function approveEventProposal(id: number, currentRole: "lecturer" | "admin", comment?: string) {
+export async function approveEventProposal(id: number, comment?: string) {
   try {
     const eventResult = await db.select().from(events).where(eq(events.id, id)).limit(1);
     if (eventResult.length === 0) return { success: false, error: "Kegiatan tidak ditemukan." };
@@ -453,24 +466,16 @@ export async function approveEventProposal(id: number, currentRole: "lecturer" |
     if (!user) return { success: false, error: "Sesi Anda berakhir. Silakan login kembali." };
 
     const [profile] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
-    if (!profile || (profile.role !== "admin" && profile.role !== "lecturer") || profile.role !== currentRole) {
-      return { success: false, error: "Akses ditolak. Peran tidak sesuai." };
+    if (!profile || profile.role !== "admin") {
+      return { success: false, error: "Akses ditolak. Hanya admin yang dapat menyetujui." };
     }
 
-    const approval =
-      profile.role === "lecturer"
-        ? {
-            expectedStatus: "pending_advisor" as const,
-            nextStatus: "pending_dean" as const,
-            notificationTitle: "Proposal Kegiatan Disetujui Admin",
-            notificationMsg: `Proposal kegiatan "${event.name}" telah disetujui Admin dan dikirim ke Administrator.`,
-          }
-        : {
-            expectedStatus: "pending_dean" as const,
-            nextStatus: "open" as const,
-            notificationTitle: "Proposal Kegiatan Disetujui Administrator",
-            notificationMsg: `Proposal kegiatan "${event.name}" telah disetujui Administrator. Pendaftaran kini dibuka!`,
-          };
+    const approval = {
+      expectedStatus: "pending_dean" as const,
+      nextStatus: "open" as const,
+      notificationTitle: "Proposal Kegiatan Disetujui Administrator",
+      notificationMsg: `Proposal kegiatan "${event.name}" telah disetujui Administrator. Pendaftaran kini dibuka!`,
+    };
 
     if (event.status !== approval.expectedStatus) {
       return {
@@ -527,11 +532,11 @@ export async function rejectEventProposal(id: number, comment: string) {
     if (!user) return { success: false, error: "Sesi Anda berakhir." };
 
     const [profile] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
-    if (!profile || (profile.role !== "admin" && profile.role !== "lecturer")) {
+    if (!profile || profile.role !== "admin") {
       return { success: false, error: "Anda tidak memiliki akses untuk melakukan tindakan ini." };
     }
 
-    const expectedStatus = profile.role === "lecturer" ? "pending_advisor" : "pending_dean";
+    const expectedStatus = "pending_dean" as const;
     if (event.status !== expectedStatus) {
       return {
         success: false,
